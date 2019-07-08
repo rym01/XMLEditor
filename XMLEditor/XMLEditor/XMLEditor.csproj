@@ -143,6 +143,21 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="xonomy\add.png" />
+    <Content Include="xonomy\bin_closed.png" />
+    <Content Include="xonomy\bullet_arrow_down.png" />
+    <Content Include="xonomy\bullet_arrow_up.png" />
+    <Content Include="xonomy\callout.gif" />
+    <Content Include="xonomy\draghandle.gif" />
+    <Content Include="xonomy\exclamation.png" />
+    <Content Include="xonomy\loader.gif" />
+    <Content Include="xonomy\magnifier.png" />
+    <Content Include="xonomy\minus.gif" />
+    <Content Include="xonomy\plus.gif" />
+    <Content Include="xonomy\sitemap.png" />
+    <Content Include="xonomy\tag.png" />
+    <Content Include="xonomy\xonomy.css" />
+    <Content Include="xonomy\xonomy.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -168,6 +183,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="xonomy\LICENSE" />
+    <Content Include="xonomy\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
