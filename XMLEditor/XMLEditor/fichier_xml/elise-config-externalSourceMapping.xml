@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <config name="MappingName">
+
+        <!-- Champs Standards -->
+        <property source="sp-ackDate" target="AcknowledgmentDate" >
+            <source>
+                <format>dd/MM/yyyy</format>
+            </source>
+        </property>
+        <property source="sp-ackInfo" target="AcknowledgmentInformations" />
+        <property source="sp-ackLevel" target="AcknowledgmentLevel" defaultSource="Registered" />
+        <property source="sp-ackRef" target="AcknowledgmentReference" />
+        <property source="sp-alertDate" target="AlertDate" >
+            <source>
+                <format>dd-MM-yyyy</format>
+            </source>
+        </property>
+        <property source="sp-comment" target="Commentary" />
+        <property source="sp-confidentiality" target="Confidentiality" />
+        <property source="sp-description" target="Description" />
+        <property source="sp-dir" target="Direction">
+            <map>
+                <add key="0" value="OutGoingMail"/>
+                <add key="1" value="InMail"/>
+                <add key="2" value="InternalMail"/>
+            </map>
+        </property>
+        <property source="sp-dueDate" target="DueDate" >
+            <source>
+                <format>dd-MM-yyyy</format>
+            </source>
+        </property>
+        <property source="sp-ackAvailable" target="IsAcknowledgmentAvailable">
+            <map>
+                <add key="+" value="true" />
+                <add key="-" value="false" />
+            </map>
+        </property>
+        <property source="sp-date" target="MailDate">
+            <source>
+                <regex><![CDATA[(?<value>.*)]]></regex>
+                <format>yyyy-MM-dd</format>
+            </source>
+        </property>
+        <property source="sp-type" target="MailType" defaultSource="myKey">
+            <map>
+                <!-- type : code / id -->
+                <add key="myKey" value="STANDARD" type="code" />
+                <sort>
+                    <id>TRI_COURRIERS_TYPE_SOMMAIRE</id>
+                    <set>COURRIERS_TYPE</set>
+                    <form>0</form>
+                    <key>1</key>
+                </sort>
+            </map>
+        </property>
+        <property source="sp-priority" target="Priority" />
+        <property source="sp-ref" target="Reference" />
+        <property source="sp-reported" target="Reported" />
+        <property source="sp-sendingDate" target="SendingDate" />
+        <property source="sp-subject" target="Subject" defaultSource="">
+            <map>
+                <add key="" value="ceci est un message de test" />
+            </map>
+        </property>
+        <property source="sp-support" target="Support" defaultSource="myKey">
+            <source>
+                <regex><![CDATA[(?<value>.*)]]></regex>
+            </source>
+            <map defaultItemType="code">
+                <add key="myKey" value="PAPIER" type="code" />
+                <!--<add key="myKey" value="APPLICATION" type="code" />-->
+            </map>
+        </property>
+        <property source="sp-redactor" target="Redactor">
+            <map>
+                <ldapAttribute>p-adminDescription</ldapAttribute>
+                <useMainService>false</useMainService>
+            </map>
+        </property>
+        <property source="sp-signatory" target="Signatory">
+            <map>
+                <!-- SID / email / SecondaryId / (propriété ldap : p-cn, p-distinguishedName, ...) -->
+                <ldapAttribute>email</ldapAttribute>
+                <!-- true / false -->
+                <useMainService>false</useMainService>
+            </map>
+        </property>
+
+        <property source="sp-sender" target="ExternalSender">
+            <map>
+                <!-- customField-1 / customField-2 / email / name -->
+                <type>email</type>
+                <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+            </map>
+        </property>
+
+        <property source="sp-internalRecipients" target="InternalRecipients">
+            <map>
+                <!-- SID / email / SecondaryId / (propriété ldap : p-cn, p-distinguishedName, ...) -->
+                <ldapAttribute>displayName</ldapAttribute>
+                <!-- true / false -->
+                <useMainService>false</useMainService>
+            </map>
+        </property>
+
+        <property source="sp-externalRecipients" target="ExternalRecipients">
+            <map>
+                <!-- customField-1 / customField-2 / email / name -->
+                <type>name</type>
+                <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+            </map>
+        </property>
+
+        <!-- Custom Fields -->
+        <property source="sp-cfcontact" target="CP_CONTACT">
+            <map>
+                <!-- customField-1 / customField-2 / email / name -->
+                <type>name</type>
+                <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+            </map>
+        </property>
+
+        <property source="sp-cfflwcht" target="CP_ORGA">
+            <map>
+                <ldapAttribute>sid</ldapAttribute>
+                <useMainService>true</useMainService>
+            </map>
+        </property>
+        <property source="sp-cflex" target="CP_THESAU">
+            <map>
+                <!-- Identifiant de l'extra property dans Idesia -->
+                <idExtraPropertyName></idExtraPropertyName>
+            </map>
+        </property>
+        <property source="sp-cfref" target="CP_REF">
+            <map>
+                <add key="myKey" value="A_DISTRIBUER" />
+                <sort>
+                    <id>TRI_COURRIERS_SUPPORT_SOMMAIRE</id>
+                    <set>COURRIERS_SUPPORT</set>
+                    <form>0</form>
+                    <key>1</key>
+                </sort>
+            </map>
+        </property>
+        <property source="sp-cfamount" target="CP_MONTANT">
+            <source>
+                <currency>$</currency>
+                <decimalSeparator>.</decimalSeparator>
+                <groupSeparator>,</groupSeparator>
+            </source>
+        </property>
+        <property source="sp-cfphone" target="CP_TEL"/>
+        <property source="sp-cfmail" target="CP_MAIL" >
+        </property>
+        <property source="sp-cfnumber" target="CP_NOMBRE" >
+        </property>
+        <property source="sp-cftexte" target="CP_TEST" >
+        </property>
+        <property source="sp-cfdate" target="CP_DATE" >
+            <source>
+                <format>dd/MM/yyyy</format>
+            </source>
+        </property>
+        <property source="sp-cfenum" target="CP_ENUM" >
+        </property>
+    </config>
+
+    <config name="Open311">
+        <!--CHAMPS STANDARDS-->
+        <property source="o311-sender" target="ExternalSender">
+            <map>
+                <type>name</type>
+                <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+            </map>
+        </property>
+        <property source="o311-title" target="Subject" />
+        <property source="o311-description" target="Description" />
+        <property source="o311-mailType" target="MailType" />
+        <property source="o311-support" target="Support" />
+        <property source="o311-createdOn" target="MailDate">
+            <source>
+                <format>dd/MM/yyyy HH:mm:ss</format>
+            </source>
+        </property>
+
+        <!--CHAMPS OPEN311-->
+        <property source="o311-serviceRequestId" target="CP_O311GR_SERVICE_REQUEST_ID" />
+        <property source="o311-serviceCode" target="CP_O311GR_CITIZEN_SERVICE">
+            <map defaultItemType="id"/>
+        </property>
+        <property source="o311-serviceNotice" target="CP_O311GR_SERVICE_NOTICE" />
+        <property source="o311-adressString" target="CP_O311GR_REQ_ADDR" />
+        <property source="o311-locale" target="CP_O311GR_LOCALE" />
+        <property source="o311-fromApiKey" target="CP_O311GR_FROM_APP_KEY" />
+        <property source="o311-deviceId" target="CP_O311GR_DEVICE_ID" />
+        <property source="o311-email" target="CP_O311GR_EMAIL_REQUESTER" />
+        <property source="o311-firstName" target="CP_O311GR_FIRST_NAME_REQUESTER" />
+        <property source="o311-lastName" target="CP_O311GR_LAST_NAME_REQUESTER" />
+        <property source="o311-phone" target="CP_O311GR_PHONE_REQUESTER" />
+        <property source="o311-latitude" target="CP_O311GR_REQ_LAT" />
+        <property source="o311-longitude" target="CP_O311GR_REQ_LONG" />
+        <property source="o311-createdOn" target="CP_O311GR_REQ_DATE">
+            <source>
+                <format>dd/MM/yyyy HH:mm:ss</format>
+            </source>
+        </property>
+        <property source="o311-expectedDateTime" target="DueDate">
+            <source>
+                <format>yyyyMMdd</format>
+            </source>
+        </property>
+        <property source="o311-expectedDateTime" target="AlertDate">
+            <source>
+                <format>yyyyMMdd</format>
+            </source>
+        </property>
+        <property source="o311-modifiedOn" target="CP_O311GR_LAST_UPDATE_SENT"/>
+        <property source="o311-agencyResponsible" target="CP_O311GR_AGENCY_RESPONSIBLE" />
+        <property source="o311-detailedStatus" target="CP_O311GR_DETAILED_STATUS" />
+        <property source="o311-accountId" target="CP_O311GR_REQ_ACCOUNT_ID" />
+        <property source="o311-geoReportStatus" target="CP_O311GR_STATUS" />
+        <property source="o311-geoReportStatusNote" target="CP_O311GR_STATUS_NOTE"/>
+
+        <!-- METADATAS -->
+
+    </config>
+</configuration>

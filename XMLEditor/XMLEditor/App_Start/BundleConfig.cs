@@ -25,6 +25,15 @@ namespace XMLEditor
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/xonomyjs").Include(
+                      "~/xonomy/xonomy.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/xonomycss").Include(
+                      "~/xonomy/xonomy.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/homecss").Include(
+                     "~/content/home.css"));
         }
     }
 }
