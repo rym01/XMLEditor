@@ -248,6 +248,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Affiche.cshtml" />
+    <Content Include="Views\Home\AfficheComparaison.cshtml" />
+    <Content Include="Views\Home\Comparaison.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

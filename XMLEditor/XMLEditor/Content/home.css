@@ -5,6 +5,10 @@
     border-radius: 10px;
 }
 
+#editor1 {
+    padding-bottom:20px;
+}
+
 button {
     margin-left: 800px;
 }

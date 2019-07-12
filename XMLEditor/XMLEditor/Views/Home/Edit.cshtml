@@ -76,7 +76,9 @@
                 console.log("hello");
             }
             else {
+                console.log(sec);
                 $.get("../../fichier_xml/" + sec, function start(data) {
+                    console.log("hello");
                     if (sec == "ELISE_COURRIERS_54.xml") {
                         var docSpec = {};
                         var editor = document.getElementById("editor");
@@ -238,7 +240,7 @@
                     data: { file_name: window.sec, xml_data: xml },
                     success: function (response) {
                         alert("success");
-                        window.location.href = "/Home/Affiche";
+                        window.location.href = "/Home/AfficheComparaison";
                     }, error: function (e) {
                         alert("erreur " + e.responseText);
                     }

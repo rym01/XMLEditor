@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Comparaison";
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/xonomyjs")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var docSpec = {};
+            var editor = document.getElementById("edit");
+            console.log("blue"+editor.textContent);
+            Xonomy.render(editor.textContent, editor, docSpec);
+        })
+        $("#versionDropdownList").change(function () {
+            window.sec = $("#versionDropdownList option:selected").text();
+            console.log(window.sec);
+            $.ajax({
+                type: 'POST',
+                url: '/Home/Comparaison',
+                data: {
+                    version_selected: window.sec
+                }
+            }).done(function (result) {
+                console.log("done");
+                $('#container').html(result);
+            })
+        });
+    </script>
+}
+@section css
+{
+    @Styles.Render("~/bundles/xonomycss", "~/bundles/homecss")
+}
+<h2>Comparaison</h2>
+
+<div>
+    @Html.DropDownList("versionDropdownList", "(select a version)")
+</div>
+<br />
+<div class="row cadre" style="padding:25px;padding-left:150px">
+    <div id="edit" class="col-md-5" style="margin-right:25px; overflow:scroll ; height:400px ; overflow-x:auto ; overflow-y:auto">@TempData["actual_xml"]</div>
+    <div id="container">@Html.Partial("Comparaison", TempData["xml_selected"])</div>
+</div>

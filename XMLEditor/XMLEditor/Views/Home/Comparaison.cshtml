@@ -1,0 +1,18 @@
+﻿
+
+
+    @Scripts.Render("~/bundles/xonomyjs")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var docSpec = {};
+            var editor = document.getElementById("editor1");
+            console.log("red"+editor.textContent);
+            Xonomy.render(editor.textContent, editor, docSpec);
+            })
+    </script>
+
+    @Styles.Render("~/bundles/xonomycss", "~/bundles/homecss")
+
+<div id="editor1" class="col-md-5" style="overflow:scroll ; height:400px ;  overflow-x:auto ; overflow-y:auto">@TempData["xml_selected"]</div>
+<br />
+
