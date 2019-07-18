@@ -42,7 +42,7 @@
             }
         });
 
-        $("button").click(function () {
+        $(".button-sub").click(function () {
             if (window.sec == null || window.sec == "(select a version)") {
                 alert("(select a version)");
             }
@@ -58,6 +58,28 @@
                 })
             }
         });
+        $("#keep").click(function () {
+            console.log("keep");
+            $.ajax({
+                type: 'GET',
+                url: '/Home/Index',
+                success: function (response) {
+                    alert("The current version has been kept");
+                    window.location.href = "/Home/Index";
+                }
+            })
+        });
+        $("#retrieve").click(function () {
+            console.log("keep");
+            $.ajax({
+                type: 'POST',
+                url: '/Home/RetrieveChoosenVersion',
+                success: function (response) {
+                    alert("Your file has been updated to the choosen version");
+                    window.location.href = "/Home/Index";
+                }
+            })
+        });
     </script>
 }
 @section css
@@ -72,13 +94,19 @@
 </div>
 <br />
 <div class="cadre">
+    <table width="100" style="table-layout: fixed;" class="table ">
+        <tr>
+            <td align="center" ><button style="margin-left:95px;margin-right:10px" type="submit" class="btn btn-default" id="keep">Keep this version</button></td>
+            <td align="center"><button type="submit" class="btn btn-default" style="margin-left:20px; margin-right:160px" id="retrieve">retrieve this version</button></td>
+        </tr>
+    </table>
     <div class="row" style="padding:25px;padding-left:150px">
         <div id="edit" class="col-md-5" style=" overflow:scroll ;margin-right:25px; height:400px ; overflow-x:auto ; overflow-y:auto">@Session["actual_xml"]</div>
         <div id="container">@Html.Partial("Comparaison")</div>
     </div>
     <div class="row">
         <div class="col-md-2 col-lg-offset-1">
-            <button type="submit" style="margin-bottom:20px;" class="btn btn-default" data-toggle="modal" data-target=".identical">Compare</button>
+            <button type="submit" style="margin-bottom:20px;" class="btn button-sub btn-default" data-toggle="modal" data-target=".identical">Compare</button>
         </div>
     </div>
 </div>

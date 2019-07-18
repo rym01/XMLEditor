@@ -105,7 +105,7 @@ namespace XMLEditor.Controllers
             string ch = " xml:space='preserve'";
             while (xml_data.Contains(ch))
             {
-                xml_data=xml_data.Remove(xml_data.IndexOf(ch),ch.Length);
+                xml_data = xml_data.Remove(xml_data.IndexOf(ch), ch.Length);
             }
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml_data);
@@ -141,7 +141,7 @@ namespace XMLEditor.Controllers
                     adap.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
                     adap.Fill(historiqueTable);
                     var list = new System.Collections.Generic.List<SelectListItem>();
-                    for (int i = 0; i < historiqueTable.Rows.Count-1; i++)
+                    for (int i = 0; i < historiqueTable.Rows.Count - 1; i++)
                     {
                         list.Add(new SelectListItem { Text = historiqueTable.Rows[i][0].ToString(), Value = historiqueTable.Rows[i][0].ToString() });
                     };
@@ -200,10 +200,10 @@ namespace XMLEditor.Controllers
             if (isEqual)
             {
                 System.Diagnostics.Debug.WriteLine("Files Identical for the given options");
-                
+
                 return PartialView("Equal");
             }
-            
+
             //Files were not equal, so construct XmlDiffView.
             XmlDiffView dv = new XmlDiffView();
 
@@ -276,6 +276,22 @@ namespace XMLEditor.Controllers
                 tw.Close();
             }
             return isEqual;
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult RetrieveChoosenVersion()
+        {
+            string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
+            string ch = " xml:space='preserve'";
+            string xml_data = (string)Session["xml_selected"];
+            while (xml_data.Contains(ch))
+            {
+                xml_data = xml_data.Remove(xml_data.IndexOf(ch), ch.Length);
+            }
+            XmlDocument doc2 = new XmlDocument();
+            doc2.LoadXml((string)Session["xml_selected"]);
+            doc2.Save(file1);
+            return View("Index");
         }
     }
 }
