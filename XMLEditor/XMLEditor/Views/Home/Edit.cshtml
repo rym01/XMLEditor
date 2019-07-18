@@ -15,225 +15,230 @@
         $("#dropdownListId").change(function () {
             window.sec = $("#dropdownListId option:selected").text();
             console.log(sec);
-            if (sec == "xml") {
-                var docSpec = {
-                    onchange: function () {
-                        console.log("I been changed now!")
-                    },
-                    validate: function (obj) {
-                        console.log("I be validatin' now!")
-                    },
-                    elements: {
-                        "list": {
-                            menu: [{
-                                caption: "Append an <item>",
-                                action: Xonomy.newElementChild,
-                                actionParameter: "<item label=\"\">...</item>"
-                            }],
-                            onchange: function () {
-                                console.log("I been changed now!")
-                            },
-                            validate: function (obj) {
-                                console.log("I be validatin' now!")
-                            }
+            if (window.sec == "(select a file)") {
+                $("#editor").empty();
+            }
+            else {
+                if (sec == "xml") {
+                    var docSpec = {
+                        onchange: function () {
+                            console.log("I been changed now!")
                         },
-                        "item": {
-                            menu: [{
-                                caption: "Add label=\"something\"",
-                                action: Xonomy.newAttribute,
-                                actionParameter: { name: "label", value: "" },
-                                hideIf: function (jsElement) {
-                                    return jsElement.hasAttribute("label");
+                        validate: function (obj) {
+                            console.log("I be validatin' now!")
+                        },
+                        elements: {
+                            "list": {
+                                menu: [{
+                                    caption: "Append an <item>",
+                                    action: Xonomy.newElementChild,
+                                    actionParameter: "<item label=\"\">...</item>"
+                                }],
+                                onchange: function () {
+                                    console.log("I been changed now!")
+                                },
+                                validate: function (obj) {
+                                    console.log("I be validatin' now!")
                                 }
-                            }, {
-                                caption: "Delete this <item>",
-                                action: Xonomy.deleteElement
-                            }, {
-                                caption: "New <item> before this",
-                                action: Xonomy.newElementBefore,
-                                actionParameter: "<item>...</item>"
-                            }, {
-                                caption: "New <item> after this",
-                                action: Xonomy.newElementAfter,
-                                actionParameter: "<item label=\"\">...</item>"
-                            }],
-                            canDropTo: ["list"],
-                            attributes: {
-                                "label": {
-                                    asker: Xonomy.askString,
-                                    menu: [{
-                                        caption: "Delete this label",
-                                        action: Xonomy.deleteAttribute
-                                    }]
+                            },
+                            "item": {
+                                menu: [{
+                                    caption: "Add label=\"something\"",
+                                    action: Xonomy.newAttribute,
+                                    actionParameter: { name: "label", value: "" },
+                                    hideIf: function (jsElement) {
+                                        return jsElement.hasAttribute("label");
+                                    }
+                                }, {
+                                    caption: "Delete this <item>",
+                                    action: Xonomy.deleteElement
+                                }, {
+                                    caption: "New <item> before this",
+                                    action: Xonomy.newElementBefore,
+                                    actionParameter: "<item>...</item>"
+                                }, {
+                                    caption: "New <item> after this",
+                                    action: Xonomy.newElementAfter,
+                                    actionParameter: "<item label=\"\">...</item>"
+                                }],
+                                canDropTo: ["list"],
+                                attributes: {
+                                    "label": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this label",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                var xml = "<list><item label='one'> hi </item><item label='two'> hello </item></list>";
-                var editor = document.getElementById("editor");
-                Xonomy.render(xml, editor, docSpec);
-                console.log("hello");
-            }
-            else {
-                console.log(sec);
-                $.get("../../fichier_xml/" + sec, function start(data) {
+                    var xml = "<list><item label='one'> hi </item><item label='two'> hello </item></list>";
+                    var editor = document.getElementById("editor");
+                    Xonomy.render(xml, editor, docSpec);
                     console.log("hello");
-                    if (sec == "ELISE_COURRIERS_54.xml") {
-                        var docSpec = {};
-                        var editor = document.getElementById("editor");
-                        Xonomy.render(data, editor, docSpec);
-                    }
-                    else {
-                        var docSpec = {
-                            onchange: function () {
-                                console.log("I been changed now!")
-                            },
-                            validate: function (obj) {
-                                console.log("I be validatin' now!")
-                            },
-                            elements: {
-                                "configuration": {
-                                    menu: [{
-                                        caption: "Append a <config>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<config name=\"\">...</config>"
-                                    }],
-                                    onchange: function () {
-                                        console.log("I been changed now!")
+                }
+                else {
+                    console.log(sec);
+                    $.get("../../fichier_xml/" + sec, function start(data) {
+                        if (sec == "ELISE_COURRIERS_54.xml") {
+                            var docSpec = {};
+                            var editor = document.getElementById("editor");
+                            Xonomy.render(data, editor, docSpec);
+                        }
+                        else {
+                            var docSpec = {
+                                onchange: function () {
+                                    console.log("I been changed now!")
+                                },
+                                validate: function (obj) {
+                                    console.log("I be validatin' now!")
+                                },
+                                elements: {
+                                    "configuration": {
+                                        menu: [{
+                                            caption: "Append a <config>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<config name=\"\">...</config>"
+                                        }],
+                                        onchange: function () {
+                                            console.log("I been changed now!")
+                                        },
+                                        validate: function (obj) {
+                                            console.log("I be validatin' now!")
+                                        }
                                     },
-                                    validate: function (obj) {
-                                        console.log("I be validatin' now!")
+                                    "config": {
+                                        menu: [{
+                                            caption: "Add name=\"something\"",
+                                            action: Xonomy.newAttribute,
+                                            actionParameter: { name: "name", value: "something" },
+                                            hideIf: function (jsElement) {
+                                                return jsElement.hasAttribute("name");
+                                            }
+                                        }, {
+                                        }, {
+                                            caption: "Append a <property>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<property source=\"\" target=\"\">...</property>"
+                                        }, {
+                                        }, {
+                                            caption: "Append a <config>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<config>...</config>"
+                                        }, {
+                                            caption: "Append a <filter>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<filter>...</filter>"
+                                        }, {
+                                            caption: "Delete this <config>",
+                                            action: Xonomy.deleteElement
+                                        }, {
+                                            caption: "New <config> before this",
+                                            action: Xonomy.newElementBefore,
+                                            actionParameter: "<config name=\"\">...</config>"
+                                        }, {
+                                            caption: "New <config> after this",
+                                            action: Xonomy.newElementAfter,
+                                            actionParameter: "<config name=\"\">...</config>"
+                                        }],
+                                        canDropTo: ["configuration"],
+                                        attributes: {
+                                            "name": {
+                                                asker: Xonomy.askString,
+                                                menu: [{
+                                                    caption: "Delete this name",
+                                                    action: Xonomy.deleteAttribute
+                                                }]
+                                            }
+                                        }
+                                    },
+                                    "filters": {
+                                        menu: [{
+                                            caption: "Append a <property>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<property source=\"\">...</property>"
+                                        }, {
+                                            caption: "New <filter> before this",
+                                            action: Xonomy.newElementBefore,
+                                            actionParameter: "<filters>...</filters>"
+                                        }, {
+                                            caption: "New <filter> after this",
+                                            action: Xonomy.newElementAfter,
+                                            actionParameter: "<filters>...</filters>"
+                                        }, {
+                                            caption: "New <property> before this",
+                                            action: Xonomy.newElementBefore,
+                                            actionParameter: "<property source=\"\" target=\"\">...</property>"
+                                        }, {
+                                            caption: "New <property> after this",
+                                            action: Xonomy.newElementAfter,
+                                            actionParameter: "<property source=\"\" target=\"\">...</property>"
+                                        }, {
+                                            caption: "New <config> before this",
+                                            action: Xonomy.newElementBefore,
+                                            actionParameter: "<config>...</config>"
+                                        }, {
+                                            caption: "New <config> after this",
+                                            action: Xonomy.newElementAfter,
+                                            actionParameter: "<config>...</config>"
+                                        }],
+                                        canDropTo: ["config"],
+                                    },
+                                    "property": {
+                                        menu: [{
+                                            caption: "Append a <source>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<source>...</source>"
+                                        }, {
+                                            caption: "Append a <map>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<map>...</map>"
+                                        }, {
+                                            caption: "Append a <predicates>",
+                                            action: Xonomy.newElementChild,
+                                            actionParameter: "<predicates>...</predicates>"
+                                        }, {
+                                            caption: "Add source=\"\"",
+                                            action: Xonomy.newAttribute,
+                                            actionParameter: { name: "source", value: "" },
+                                            hideIf: function (jsElement) {
+                                                return jsElement.hasAttribute("source");
+                                            }
+                                        }, {
+                                            caption: "Add target=\"\"",
+                                            action: Xonomy.newAttribute,
+                                            actionParameter: { name: "target", value: "" },
+                                            hideIf: function (jsElement) {
+                                                return jsElement.hasAttribute("target");
+                                            }
+                                        }, {
+                                            caption: "Add source=\"\"",
+                                            action: Xonomy.newAttribute,
+                                            actionParameter: { name: "defaultSource", value: "" },
+                                            hideIf: function (jsElement) {
+                                                return jsElement.hasAttribute("defaultSource");
+                                            }
+                                        }]
                                     }
-                                },
-                                "config": {
-                                    menu: [{
-                                        caption: "Add name=\"something\"",
-                                        action: Xonomy.newAttribute,
-                                        actionParameter: { name: "name", value: "something" },
-                                        hideIf: function (jsElement) {
-                                            return jsElement.hasAttribute("name");
-                                        }
-                                    }, {
-                                    }, {
-                                        caption: "Append a <property>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<property source=\"\" target=\"\">...</property>"
-                                    }, {
-                                    }, {
-                                        caption: "Append a <config>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<config>...</config>"
-                                    }, {
-                                        caption: "Append a <filter>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<filter>...</filter>"
-                                    }, {
-                                        caption: "Delete this <config>",
-                                        action: Xonomy.deleteElement
-                                    }, {
-                                        caption: "New <config> before this",
-                                        action: Xonomy.newElementBefore,
-                                        actionParameter: "<config name=\"\">...</config>"
-                                    }, {
-                                        caption: "New <config> after this",
-                                        action: Xonomy.newElementAfter,
-                                        actionParameter: "<config name=\"\">...</config>"
-                                    }],
-                                    canDropTo: ["configuration"],
-                                    attributes: {
-                                        "name": {
-                                            asker: Xonomy.askString,
-                                            menu: [{
-                                                caption: "Delete this name",
-                                                action: Xonomy.deleteAttribute
-                                            }]
-                                        }
-                                    }
-                                },
-                                "filters": {
-                                    menu: [{
-                                        caption: "Append a <property>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<property source=\"\">...</property>"
-                                    }, {
-                                        caption: "New <filter> before this",
-                                        action: Xonomy.newElementBefore,
-                                        actionParameter: "<filters>...</filters>"
-                                    }, {
-                                        caption: "New <filter> after this",
-                                        action: Xonomy.newElementAfter,
-                                        actionParameter: "<filters>...</filters>"
-                                    }, {
-                                        caption: "New <property> before this",
-                                        action: Xonomy.newElementBefore,
-                                        actionParameter: "<property source=\"\" target=\"\">...</property>"
-                                    }, {
-                                        caption: "New <property> after this",
-                                        action: Xonomy.newElementAfter,
-                                        actionParameter: "<property source=\"\" target=\"\">...</property>"
-                                    }, {
-                                        caption: "New <config> before this",
-                                        action: Xonomy.newElementBefore,
-                                        actionParameter: "<config>...</config>"
-                                    }, {
-                                        caption: "New <config> after this",
-                                        action: Xonomy.newElementAfter,
-                                        actionParameter: "<config>...</config>"
-                                    }],
-                                    canDropTo: ["config"],
-                                },
-                                "property": {
-                                    menu: [{
-                                        caption: "Append a <source>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<source>...</source>"
-                                    }, {
-                                        caption: "Append a <map>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<map>...</map>"
-                                    }, {
-                                        caption: "Append a <predicates>",
-                                        action: Xonomy.newElementChild,
-                                        actionParameter: "<predicates>...</predicates>"
-                                    }, {
-                                        caption: "Add source=\"\"",
-                                        action: Xonomy.newAttribute,
-                                        actionParameter: { name: "source", value: "" },
-                                        hideIf: function (jsElement) {
-                                            return jsElement.hasAttribute("source");
-                                        }
-                                    }, {
-                                        caption: "Add target=\"\"",
-                                        action: Xonomy.newAttribute,
-                                        actionParameter: { name: "target", value: "" },
-                                        hideIf: function (jsElement) {
-                                            return jsElement.hasAttribute("target");
-                                        }
-                                    }, {
-                                        caption: "Add source=\"\"",
-                                        action: Xonomy.newAttribute,
-                                        actionParameter: { name: "defaultSource", value: "" },
-                                        hideIf: function (jsElement) {
-                                            return jsElement.hasAttribute("defaultSource");
-                                        }
-                                    }]
                                 }
-                            }
-                        };
-                        var editor = document.getElementById("editor");
-                        Xonomy.render(data, editor, docSpec);
-                    }
-                }, "xml")
+                            };
+                            var editor = document.getElementById("editor");
+                            Xonomy.render(data, editor, docSpec);
+                            console.log(editor.innerHTML);
+                        }
+                    }, "xml")
+                }
             }
         });
+
         $("button").click(function () {
-            if (window.sec == null) {
+            if (window.sec == null || window.sec=="(select a file)") {
                 alert("select a file");
             }
             else {
                 var xml = Xonomy.harvest();
-                console.log(xml);
                 $.ajax({
                     type: 'POST',
                     url: '/Home/Submit',
@@ -242,6 +247,7 @@
                         alert("success");
                         window.location.href = "/Home/AfficheComparaison";
                     }, error: function (e) {
+                        console.log(e.responseText);
                         alert("erreur " + e.responseText);
                     }
                 })

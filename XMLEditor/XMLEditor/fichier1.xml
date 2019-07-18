@@ -385,4 +385,4 @@
      <property source="CP_O311GR_STATUS_NOTE" target="o311-statusNote" />
      <property source="CP_O311GR_LAST_UPDATE_SENT" target="o311-modifiedOn" />
    </config>
- </configuration>
+ <config name="" xml:space="preserve">...</config></configuration>

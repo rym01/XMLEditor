@@ -1,7 +1,4 @@
-﻿
-
-
-    @Scripts.Render("~/bundles/xonomyjs")
+﻿    @Scripts.Render("~/bundles/xonomyjs")
     <script type="text/javascript">
         $(document).ready(function () {
             var docSpec = {};
@@ -13,6 +10,5 @@
 
     @Styles.Render("~/bundles/xonomycss", "~/bundles/homecss")
 
-<div id="editor1" class="col-md-5" style="overflow:scroll ; height:400px ;  overflow-x:auto ; overflow-y:auto">@TempData["xml_selected"]</div>
-<br />
+<div id="editor1" class="col-md-5" style="overflow:scroll ; height:400px ;  overflow-x:auto ; overflow-y:auto">@Session["xml_selected"]</div>
 

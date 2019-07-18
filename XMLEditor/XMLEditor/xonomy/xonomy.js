@@ -87,7 +87,6 @@ Xonomy.js2xml=function(js) {
 				var child=js.children[i];
 				if(child.type=="text") hasText=true;
 			}
-			if(hasText) xml+=" xml:space='preserve'";
 			xml+=">";
 			for(var i=0; i<js.children.length; i++) {
 				var child=js.children[i];

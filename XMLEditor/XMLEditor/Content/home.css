@@ -36,3 +36,9 @@ button {
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+.modal-ku {
+    width: 900px;
+    background-color:red;
+    margin: auto;
+}

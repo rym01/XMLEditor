@@ -1,5 +1,7 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "Comparaison";
 }
 
@@ -10,22 +12,51 @@
         $(document).ready(function () {
             var docSpec = {};
             var editor = document.getElementById("edit");
-            console.log("blue"+editor.textContent);
+            console.log("blue" + editor.textContent);
             Xonomy.render(editor.textContent, editor, docSpec);
+            if (window.sec == null || window.sec == "(select a version)") {
+                $('#container').empty();
+            }
+            if (window.sec == null || window.sec == "(select a version)") {
+                $('#compare').empty();
+            }
+
         })
         $("#versionDropdownList").change(function () {
-            window.sec = $("#versionDropdownList option:selected").text();
-            console.log(window.sec);
-            $.ajax({
-                type: 'POST',
-                url: '/Home/Comparaison',
-                data: {
-                    version_selected: window.sec
-                }
-            }).done(function (result) {
-                console.log("done");
-                $('#container').html(result);
-            })
+            if (window.sec == "(select a version)") {
+                $("#editor").empty();
+            }
+            else {
+                window.sec = $("#versionDropdownList option:selected").text();
+                console.log(window.sec);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/Comparaison',
+                    data: {
+                        version_selected: window.sec
+                    }
+                }).done(function (result) {
+                    console.log("done");
+                    $('#container').html(result);
+                })
+            }
+        });
+
+        $("button").click(function () {
+            if (window.sec == null || window.sec == "(select a version)") {
+                alert("(select a version)");
+            }
+            else {
+                Xonomy.harvest();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/Compare',
+                    data: {}
+                }).done(function (result) {
+                    console.log("hey " + result);
+                    $('#compare').html(result);
+                })
+            }
         });
     </script>
 }
@@ -33,13 +64,36 @@
 {
     @Styles.Render("~/bundles/xonomycss", "~/bundles/homecss")
 }
+
 <h2>Comparaison</h2>
 
 <div>
     @Html.DropDownList("versionDropdownList", "(select a version)")
 </div>
 <br />
-<div class="row cadre" style="padding:25px;padding-left:150px">
-    <div id="edit" class="col-md-5" style="margin-right:25px; overflow:scroll ; height:400px ; overflow-x:auto ; overflow-y:auto">@TempData["actual_xml"]</div>
-    <div id="container">@Html.Partial("Comparaison", TempData["xml_selected"])</div>
+<div class="cadre">
+    <div class="row" style="padding:25px;padding-left:150px">
+        <div id="edit" class="col-md-5" style=" overflow:scroll ;margin-right:25px; height:400px ; overflow-x:auto ; overflow-y:auto">@Session["actual_xml"]</div>
+        <div id="container">@Html.Partial("Comparaison")</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-lg-offset-1">
+            <button type="submit" style="margin-bottom:20px;" class="btn btn-default" data-toggle="modal" data-target=".identical">Compare</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade identical">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="compare">
+                    @Html.Partial("Compare")
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

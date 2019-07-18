@@ -5,12 +5,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using Microsoft.XmlDiffPatch;
+using System.IO;
+using System.Text;
+using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace XMLEditor.Controllers
 {
     public class HomeController : Controller
     {
-        string connectionString = "server=localhost;user id=root;database=xmleditor";
+        readonly string connectionString = "server=localhost;user id=root;database=xmleditor";
+        string diffile = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/diffile.xml";
+        XmlDiffOptions diffOptions = new XmlDiffOptions();
+        XmlDiff diff = new XmlDiff();
 
         public ActionResult Index()
         {
@@ -48,7 +56,6 @@ namespace XMLEditor.Controllers
         public ActionResult Submit(string file_name, string xml_data)
         {
             Session["file_name"] = file_name;
-            System.Diagnostics.Debug.WriteLine("red " + file_name);
 
             //save changes in database
             using (MySqlConnection con = new MySqlConnection(connectionString))
@@ -62,11 +69,49 @@ namespace XMLEditor.Controllers
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
+
             //save changes in the origin file
+            string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
+            /* string file2 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier2.xml";
+             XmlDocument doc2 = new XmlDocument();
+             doc2.LoadXml(xml_data);
+             doc2.Save(file2);
+             bool isEqual = DoCompare(file1, file2);
+             if (!isEqual)
+             {
+                 StringWriter sw = new StringWriter();
+
+                 XmlTextWriter writer = new XmlTextWriter(sw);
+
+                 writer.Formatting = Formatting.Indented;
+
+                 XmlDocument originalDoc = new XmlDocument();
+
+                 originalDoc.Load(file1);
+
+                 XmlPatch patch = new XmlPatch();
+
+                 XmlTextReader reader = new XmlTextReader(new StringReader(diffile));
+
+                 //Perform patch operation
+
+                 patch.Patch(originalDoc, reader);
+
+                 originalDoc.Save(writer);
+
+                 reader.Close();
+
+             }*/
+            string ch = " xml:space='preserve'";
+            while (xml_data.Contains(ch))
+            {
+                xml_data=xml_data.Remove(xml_data.IndexOf(ch),ch.Length);
+            }
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml_data);
-            doc.Save("C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml" + file_name);
-            return RedirectToAction("AfficheComparaison", "Home"); 
+            doc.Save(file1);
+
+            return RedirectToAction("AfficheComparaison", "Home");
         }
 
         public ActionResult Affiche()
@@ -84,41 +129,43 @@ namespace XMLEditor.Controllers
 
         public ActionResult AfficheComparaison()
         {
-            DataTable historiqueTable = new DataTable();
-            DataTable historiqueTable1 = new DataTable();
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            if (Session["file_name"] != null)
             {
-                con.Open();
-                string query = "SELECT modified_in FROM HISTORIQUE where file_name=@file_name";
-                MySqlDataAdapter adap = new MySqlDataAdapter(query, con);
-                System.Diagnostics.Debug.WriteLine("red " + Session["file_name"]);
-                adap.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
-                adap.Fill(historiqueTable);
-                var list = new System.Collections.Generic.List<SelectListItem>();
-                for(int i=0;i<historiqueTable.Rows.Count;i++)
+                DataTable historiqueTable = new DataTable();
+                DataTable historiqueTable1 = new DataTable();
+                using (MySqlConnection con = new MySqlConnection(connectionString))
                 {
-                    System.Diagnostics.Debug.WriteLine("red " + historiqueTable.Rows[i][0].ToString());
-                    list.Add(new SelectListItem { Text = historiqueTable.Rows[i][0].ToString(), Value = historiqueTable.Rows[i][0].ToString() });
-                };
-                ViewBag.versionDropdownList = list;
+                    con.Open();
+                    string query = "SELECT modified_in FROM HISTORIQUE where file_name=@file_name";
+                    MySqlDataAdapter adap = new MySqlDataAdapter(query, con);
+                    adap.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
+                    adap.Fill(historiqueTable);
+                    var list = new System.Collections.Generic.List<SelectListItem>();
+                    for (int i = 0; i < historiqueTable.Rows.Count-1; i++)
+                    {
+                        list.Add(new SelectListItem { Text = historiqueTable.Rows[i][0].ToString(), Value = historiqueTable.Rows[i][0].ToString() });
+                    };
+                    ViewBag.versionDropdownList = list;
 
-                string query1 = "SELECT xml_data FROM HISTORIQUE where file_name=@file_name ORDER BY num DESC LIMIT 1";
-                MySqlDataAdapter adap1 = new MySqlDataAdapter(query1, con);
-                adap1.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
-                adap1.Fill(historiqueTable1);
-                System.Diagnostics.Debug.WriteLine("blue " + historiqueTable1.Rows.Count);
-                TempData["actual_xml"] = historiqueTable1.Rows[0][0];
-                con.Close();
+                    string query1 = "SELECT xml_data FROM HISTORIQUE where file_name=@file_name ORDER BY num DESC LIMIT 1";
+                    MySqlDataAdapter adap1 = new MySqlDataAdapter(query1, con);
+                    adap1.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
+                    adap1.Fill(historiqueTable1);
+                    Session["actual_xml"] = historiqueTable1.Rows[0][0];
+                    con.Close();
+                }
+
+                return View(historiqueTable);
             }
-            System.Diagnostics.Debug.WriteLine("blue1 " + TempData["actual_xml"]);
-
-            return View(historiqueTable);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult Comparaison(string version_selected)
         {
-            System.Diagnostics.Debug.WriteLine("green " + version_selected);
             DataTable historiqueTable = new DataTable();
             using (MySqlConnection con = new MySqlConnection(connectionString))
             {
@@ -128,13 +175,107 @@ namespace XMLEditor.Controllers
                 adap.SelectCommand.Parameters.AddWithValue("@file_name", Session["file_name"]);
                 adap.SelectCommand.Parameters.AddWithValue("@modified_in", Convert.ToDateTime(version_selected));
                 adap.Fill(historiqueTable);
-                System.Diagnostics.Debug.WriteLine("rose " + historiqueTable.Rows.Count);
-                TempData["xml_selected"] = historiqueTable.Rows[0][0];
-                System.Diagnostics.Debug.WriteLine("rose " + historiqueTable.Rows[0][0]);
+                Session["xml_selected"] = historiqueTable.Rows[0][0];
                 con.Close();
             }
 
             return PartialView("Comparaison");
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Compare()
+        {
+            string file2 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier2.xml";
+            string ch = " xml:space='preserve'";
+            string xml_data = (string)Session["xml_selected"];
+            while (xml_data.Contains(ch))
+            {
+                xml_data = xml_data.Remove(xml_data.IndexOf(ch), ch.Length);
+            }
+            XmlDocument doc2 = new XmlDocument();
+            doc2.LoadXml((string)Session["xml_selected"]);
+            doc2.Save(file2);
+            string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
+            bool isEqual = DoCompare(file2, file1);
+            if (isEqual)
+            {
+                System.Diagnostics.Debug.WriteLine("Files Identical for the given options");
+                
+                return PartialView("Equal");
+            }
+            
+            //Files were not equal, so construct XmlDiffView.
+            XmlDiffView dv = new XmlDiffView();
+
+            //Load the original file again and the diff file.
+            XmlTextReader orig = new XmlTextReader(file2);
+            XmlTextReader diffGram = new XmlTextReader(diffile);
+            dv.Load(orig, diffGram);
+
+            //Wrap the HTML file with necessary html and 
+            //body tags and prepare it before passing it to the GetHtml method.
+            string tempFile = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/Views/Home/Compare.cshtml";
+            StreamWriter sw1 = new StreamWriter(tempFile);
+
+            sw1.Write("<style>td,th{ border:none;} .cadre {background-color: #1D1B1B;border-radius: 25px; padding:25px;} .my-custom-scrollbar {position: relative;height: 350px; overflow: auto;} .table-wrapper-scroll-y {display: block;} .table{ background:white; width:100%}</style><div class=\"cadre\"><div class=\"table-wrapper-scroll-y my-custom-scrollbar\"><table class=\"table\" > ");
+            //Write Legend.
+            sw1.Write("<tr><td colspan='2' align='center'><b>Legend:</b> <font style='background-color: yellow'" +
+                " color='black'>added</font>&nbsp;&nbsp;<font style='background-color: red'" +
+                " color='black'>removed</font>&nbsp;&nbsp;<font style='background-color: " +
+                "lightgreen' color='black'>changed</font>&nbsp;&nbsp;" +
+                "<font style='background-color: red' color='blue'>moved from</font>" +
+                "&nbsp;&nbsp;<font style='background-color: yellow' color='blue'>moved to" +
+                "</font>&nbsp;&nbsp;<font style='background-color: white' color='#AAAAAA'>" +
+                "ignored</font></td></tr>");
+
+            sw1.Write("<tr><td><b>Choosen Version");
+            sw1.Write("</b></td><td><b>Current Version");
+            sw1.Write("</b></td></tr>");
+            //This gets the differences but just has the 
+            //rows and columns of an HTML table
+            dv.GetHtml(sw1);
+            //Finish wrapping up the generated HTML and complete the file.
+            sw1.Write("</table></div></div>");
+            //HouseKeeping...close everything we dont want to lock.
+            sw1.Close();
+            dv = null;
+            orig.Close();
+            diffGram.Close();
+            System.IO.File.Delete(diffile);
+
+            return PartialView("Compare");
+        }
+
+        private void SetDiffOptions()
+        {
+            diffOptions = XmlDiffOptions.None;
+            diffOptions = diffOptions | XmlDiffOptions.IgnoreChildOrder;
+            diffOptions = diffOptions | XmlDiffOptions.IgnoreComments;
+            diffOptions = diffOptions | XmlDiffOptions.IgnoreWhitespace;
+            diff.Options = diffOptions;
+        }
+
+        bool DoCompare(string file1, string file2)
+        {
+
+            XmlTextWriter tw = new XmlTextWriter(new StreamWriter(diffile));
+            tw.Formatting = Formatting.Indented;
+            SetDiffOptions();
+            bool isEqual = false;
+
+            try
+            {
+                isEqual = diff.Compare(file1, file2, false, tw);
+            }
+            catch (XmlException xe)
+            {
+                System.Diagnostics.Debug.WriteLine("An exception occured while comparing\n" + xe.StackTrace);
+            }
+            finally
+            {
+                tw.Close();
+            }
+            return isEqual;
         }
     }
 }
