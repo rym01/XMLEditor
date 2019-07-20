@@ -1,0 +1,39 @@
+﻿<script type="text/javascript">
+    $("#user_name").click(function () {
+        $("input:text").val("");
+    });
+    $("#valider").click(function () {
+        if ($("#user_name").val() == "" || $("#user_name").val() == "Nom & Prénom") {
+            alert("vous devez indiquer votre nom")
+        }
+        else {
+            console.log("user_name: " + $("#user_name").val());
+            sessionStorage.setItem("user_name", $("#user_name").val());
+            if (sessionStorage.getItem("action_name") == "edit") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/SaveUser',
+                    data: { user_name: $("#user_name").val() },
+                    success: function (response) {
+                        window.location.href = "/Home/Edit";
+                    }
+                })
+            }
+            if (sessionStorage.getItem("action_name") == "compare") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/SaveUser',
+                    data: { user_name: $("#user_name").val() },
+                    success: function (response) {
+                        window.location.href = "/Home/AfficheComparaison";
+                    }
+                })
+            }
+        }
+    });
+</script>
+<div class="form-group" style="background-color:#E0FFFF; padding:50px;padding-left:100px;padding-bottom:60px">
+    @Html.Label("Ecrivez votre nom et prénom:")
+    @Html.TextBox("user_name", "Nom & Prénom",new { @class = "form-control" })
+    <button id="valider" type="submit" class="btn btn-success btn-lg" style="float:right">valider </button>
+</div>

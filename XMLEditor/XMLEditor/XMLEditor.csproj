@@ -260,6 +260,7 @@
     <Content Include="Views\Home\Comparaison.cshtml" />
     <Content Include="Views\Home\Compare.cshtml" />
     <Content Include="Views\Home\Equal.cshtml" />
+    <Content Include="Views\Home\SignIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

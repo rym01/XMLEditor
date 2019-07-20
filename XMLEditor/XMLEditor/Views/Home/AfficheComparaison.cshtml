@@ -23,12 +23,12 @@
 
         })
         $("#versionDropdownList").change(function () {
-            if (window.sec == "(select a version)") {
-                $("#editor").empty();
+            window.sec = $("#versionDropdownList option:selected").text();
+            if (window.sec == null || window.sec == "(select a version)") {
+                $("#container").empty();
             }
             else {
-                window.sec = $("#versionDropdownList option:selected").text();
-                console.log(window.sec);
+                console.log("heyy"+window.sec);
                 $.ajax({
                     type: 'POST',
                     url: '/Home/Comparaison',
@@ -44,7 +44,8 @@
 
         $(".button-sub").click(function () {
             if (window.sec == null || window.sec == "(select a version)") {
-                alert("(select a version)");
+                alert("choose a version");
+                window.location.href = "/Home/AfficheComparaison";
             }
             else {
                 Xonomy.harvest();
@@ -94,9 +95,9 @@
 </div>
 <br />
 <div class="cadre">
-    <table width="100" style="table-layout: fixed;" class="table ">
+    <table width="100" style="table-layout: fixed; background-color:#1D1B1B" class="table">
         <tr>
-            <td align="center" ><button style="margin-left:95px;margin-right:10px" type="submit" class="btn btn-default" id="keep">Keep this version</button></td>
+            <td align="center"><button style="margin-left:95px;margin-right:10px" type="submit" class="btn btn-default" id="keep">Keep this version</button></td>
             <td align="center"><button type="submit" class="btn btn-default" style="margin-left:20px; margin-right:160px" id="retrieve">retrieve this version</button></td>
         </tr>
     </table>
@@ -110,7 +111,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade identical">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

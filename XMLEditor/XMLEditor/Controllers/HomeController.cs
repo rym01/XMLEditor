@@ -20,52 +20,62 @@ namespace XMLEditor.Controllers
         XmlDiffOptions diffOptions = new XmlDiffOptions();
         XmlDiff diff = new XmlDiff();
 
-        public ActionResult Index()
+        public ActionResult Index(string logout)
         {
-            return View();
-        }
-
-        public ActionResult Edit()
-        {
+            if (logout != null)
+            {
+                if (logout.Equals("true"))
+                {
+                    Session["user_name"] = null;
+                }
+            }
             var list = new System.Collections.Generic.List<SelectListItem>
     {
         new SelectListItem{ Text="elise-config-externalSourceMapping.xml", Value = "elise-config-externalSourceMapping.xml" },
         new SelectListItem{ Text="elise-config-sharingMapping.xml", Value = "elise-config-sharingMapping.xml" },
-        new SelectListItem{ Text="ELISE_COURRIERS_54.xml", Value = "ELISE_COURRIERS_54.xml"},
-        new SelectListItem{ Text="xml", Value = "xml"},
+        new SelectListItem{ Text="ELISE_COURRIERS_54.xml", Value = "ELISE_COURRIERS_54.xml"}
     };
             ViewBag.dropdownListId = list;
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult EditOrCompare(string file_name)
         {
-            ViewBag.Message = "Your contact page.";
+            Session["file_name"] = file_name;
+            return PartialView("SignIn");
+        }
 
-            return View();
+        public ActionResult Edit()
+        {
+            if (Session["file_name"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home"); ;
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult Submit(string file_name, string xml_data)
+        public ActionResult SaveUser(string user_name)
         {
-            Session["file_name"] = file_name;
+            Session["user_name"] = user_name;
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Submit(string xml_data)
+        {
 
             //save changes in database
             using (MySqlConnection con = new MySqlConnection(connectionString))
             {
                 con.Open();
-                string query = "INSERT INTO HISTORIQUE (file_name, xml_data, modified_in) VALUES(@file_name,@xml_data,@modified_in)";
+                string query = "INSERT INTO HISTORIQUE (file_name, xml_data, modified_in,modified_by) VALUES(@file_name,@xml_data,@modified_in,@modified_by)";
                 MySqlCommand cmd = new MySqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@file_name", file_name);
+                cmd.Parameters.AddWithValue("@file_name", Session["file_name"]);
                 cmd.Parameters.AddWithValue("@xml_data", xml_data);
                 cmd.Parameters.AddWithValue("@modified_in", DateTime.Now);
+                cmd.Parameters.AddWithValue("@modified_by", Session["user_name"]);
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -241,7 +251,7 @@ namespace XMLEditor.Controllers
             dv = null;
             orig.Close();
             diffGram.Close();
-            System.IO.File.Delete(diffile);
+            //System.IO.File.Delete(diffile);
 
             return PartialView("Compare");
         }
@@ -282,16 +292,22 @@ namespace XMLEditor.Controllers
         public ActionResult RetrieveChoosenVersion()
         {
             string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
-            string ch = " xml:space='preserve'";
-            string xml_data = (string)Session["xml_selected"];
-            while (xml_data.Contains(ch))
-            {
-                xml_data = xml_data.Remove(xml_data.IndexOf(ch), ch.Length);
-            }
             XmlDocument doc2 = new XmlDocument();
             doc2.LoadXml((string)Session["xml_selected"]);
             doc2.Save(file1);
-            return View("Index");
+            using (MySqlConnection con = new MySqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "INSERT INTO HISTORIQUE (file_name, xml_data, modified_in,modified_by) VALUES(@file_name,@xml_data,@modified_in,@modified_by)";
+                MySqlCommand cmd = new MySqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@file_name", (string)Session["file_name"]);
+                cmd.Parameters.AddWithValue("@xml_data", (string)Session["xml_selected"]);
+                cmd.Parameters.AddWithValue("@modified_in", DateTime.Now);
+                cmd.Parameters.AddWithValue("@modified_by", Session["user_name"]);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }

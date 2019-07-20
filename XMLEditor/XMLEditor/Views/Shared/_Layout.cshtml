@@ -27,9 +27,31 @@
                     <li>@Html.ActionLink("Edit", "Edit", "Home")</li>
                     <li>@Html.ActionLink("Comparaison", "AfficheComparaison", "Home")</li>
                 </ul>
+                @if (Session["user_name"] != null)
+                {
+                    <div id="logout" style=" cursor:pointer;float:right; padding-top:17px; padding-left:15px"><span class="glyphicon glyphicon-off" style="color:darkred"></span></div>
+                    <div id="profile" data-toggle="modal" data-target=".identical" style="color:grey; cursor:pointer;float:right; padding-top:15px"><span class="glyphicon glyphicon-user" style="color:forestgreen"></span>  @Session["user_name"]</div>
+                }
             </div>
         </div>
     </div>
+    @if (Session["user_name"] != null)
+    {
+        <div id="popUp" class="modal fade identical">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="login">
+                            @Html.Partial("SignIn")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -41,5 +63,30 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        $("#profile").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/EditOrCompare',
+                data: { file_name: sessionStorage.getItem("file_name") },
+            }).done(function (result) {
+
+                console.log("hello" + sessionStorage.getItem("file_name"));
+                $('#login').html(result);
+
+            });
+        });
+        $("#logout").click(function () {
+            sessionStorage.removeItem("user_name");
+            $.ajax({
+                type: 'GET',
+                url: '/Home/Index',
+                data: { logout: "true" },
+                success: function (response) {
+                    window.location.href = "/Home/Index";
+                }
+            })
+        });
+    </script>
 </body>
 </html>

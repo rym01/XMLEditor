@@ -1,31 +1,188 @@
-﻿@{
+﻿<!--
+    section Scripts
+{
+    <script>
+        $("#dropdownListId").change(function () {
+            window.sec = $("#dropdownListId option:selected").text();
+            sessionStorage.setItem("file_name", window.sec)
+            console.log(sec);
+        });
+        $("#edit").click(function () {
+            if (window.sec == "(select a file)" || window.sec == null) {
+                alert("Choose a file");
+            }
+
+            console.log("edit");
+            $.ajax({
+                type: 'POST',
+                url: '/Home/Edit',
+                data: { file_name: window.sec },
+                success: function (response) {
+                    window.location.href = "/Home/Edit";
+                }
+            })
+        });
+    </script>
+}
+section css
+{
+    Styles.Render("~/bundles/homecss")
+    <style>
+        #dropdownListId {
+            text-align: center;
+            max-width: 100%;
+            height: 50px;
+            font-size: x-large;
+            padding-left: 300px;
+            padding-right: 200px;
+            margin-left: 80px;
+        }
+
+        button {
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+}
+<h1>Choose A File</h1>
+<br />
+<div class="cadre" style="height:400px">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>
+        Html.DropDownList("dropdownListId", "( ---- Select a File ---- )")
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-3 col-lg-offset-3">
+            <button id="edit" type="submit" class="btn btn-success btn-lg">Edit</button>
+        </div>
+
+        <div class="col-lg-3">
+            <button id="compare" type="submit" class="btn btn-info btn-lg">Compare</button>
+        </div>
+    </div>
+    <br />
+</div>
+-->
+
+@{
     ViewBag.Title = "Home Page";
 }
+@section css
+{
+    <style>
+        #dropdownListId {
+            border-radius: 5px;
+            text-align: center;
+            max-width: 100%;
+            height: 40px;
+            font-size: x-large;
+            padding-left: 100px;
+            padding-right: 100px;
+        }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+        #width_tmp_select {
+            display: none;
+        }
+    </style>
+}
+@section Scripts
+{
+    <script>
+        $("#dropdownListId").change(function () {
+            window.sec = $("#dropdownListId option:selected").text();
+            sessionStorage.setItem("file_name", window.sec)
+            console.log(sec);
+        });
+        $("#compare").click(function () {
+            if (window.sec == "( ----- Veuillez choisir un fichier ----- )" || window.sec == null) {
+                alert("Choose a file");
+                window.location.href = "/Home/Index";
+            }
+            sessionStorage.setItem("action_name", "compare")
+            console.log("compare");
+            $.ajax({
+                type: 'POST',
+                url: '/Home/EditOrCompare',
+                data: { file_name: window.sec },
+            }).done(function (result) {
+                if (sessionStorage.getItem("user_name") == null) {
+                    $('#login').html(result);
+                }
+                else {
+                    window.location.href = "/Home/AfficheComparaison";
+                }
+            });
+        });
+        $("#edit").click(function () {
+            if (window.sec == "( ----- Veuillez choisir un fichier ----- )" || window.sec == null) {
+                alert("Choose a file");
+                window.location.href = "/Home/Index";
+            }
+            sessionStorage.setItem("action_name", "edit")
+            console.log("edit");
+            $.ajax({
+                type: 'POST',
+                url: '/Home/EditOrCompare',
+                data: { file_name: window.sec },
+            }).done(function (result) {
+                if (sessionStorage.getItem("user_name") == null) {
+                    console.log("hello");
+                    $('#login').html(result);
+                }
+                else {
+                    console.log("hey");
+                    window.location.href = "/Home/Edit";
+                }
+            });
+        });
+    </script>
+}
+<br />
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+<h1>TITRE_DE_L'APPLI</h1>
+<br />
+<div class="jumbotron" style="background-color:#E0FFFF;width:900px;height:400px;">
+    <!--couleur du fond de l'arrière plan de la page d'acc-->
+
+    <p class="lead" style=" font-size:16px;font-style:italic;">*nom_de_l'appli* permet de comparer de fichiers XML(le même fichier mais en deux versions) et d'afficher la différences entre eux en indiquant la date et affichant où s'est passé la modification.</p>
+    <br />
+    <h4><b>Veuillez choisir quel fichier que vous voulez manipuler:</b></h4>
+    <br />
+    <div>
+        @Html.DropDownList("dropdownListId", "( ----- Veuillez choisir un fichier ----- )")
+    </div>
+    <div style="padding-left:175px">
+        <br />
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            <button id="compare" type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".identical">
+                Comparer &raquo;
+            </button>
+            <button id="edit" type="submit" class="btn btn-success btn-lg" data-toggle="modal" data-target=".identical">Modifier &raquo;</button>
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+
+@if (Session["user_name"] == null)
+{
+    <div id="popUp" class="modal fade identical">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="login">
+                        @Html.Partial("SignIn")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
