@@ -5,13 +5,29 @@
     border-radius: 10px;
 }
 
-#editor1 {
-    padding-bottom:20px;
+.valider {
+    background-color: #808080;
+    color: white;
+}
+    .valider:hover {
+        background-color: #1D1B1B;
+    }
+
+.editor {
+    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: auto;
+    font-size: 17px;
+    width: 700px;
+    height: 500px;
+    position: relative;
+    left: 100px;
+    background: #E0FFFF;
+    margin: 10px auto;
+    border: solid #808080 1.5px;
+    border-radius: 10px;
 }
 
-.button-sub {
-    margin-left: 800px;
-}
 
 .cadre {
     background-color: #1D1B1B;

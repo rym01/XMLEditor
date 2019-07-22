@@ -86,10 +86,6 @@ section css
             padding-left: 100px;
             padding-right: 100px;
         }
-
-        #width_tmp_select {
-            display: none;
-        }
     </style>
 }
 @section Scripts
@@ -151,9 +147,9 @@ section css
 <div class="jumbotron" style="background-color:#E0FFFF;width:900px;height:400px;">
     <!--couleur du fond de l'arrière plan de la page d'acc-->
 
-    <p class="lead" style=" font-size:16px;font-style:italic;">*nom_de_l'appli* permet de comparer de fichiers XML(le même fichier mais en deux versions) et d'afficher la différences entre eux en indiquant la date et affichant où s'est passé la modification.</p>
+    <p class="lead" style=" font-size:16px;font-style:italic;">*nom_de_l'appli* permet de modifier et de comparer des fichiers XML(le fichier avec les versions existantes) et d'afficher la différences entre deux versions en indiquant la date et affichant où s'est passé la modification.</p>
     <br />
-    <h4><b>Veuillez choisir quel fichier que vous voulez manipuler:</b></h4>
+    <h4><b>Veuillez choisir quel fichier vous voulez manipuler:</b></h4>
     <br />
     <div>
         @Html.DropDownList("dropdownListId", "( ----- Veuillez choisir un fichier ----- )")
