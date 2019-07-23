@@ -12,70 +12,11 @@
     @Scripts.Render("~/bundles/xonomyjs")
     <script type="text/javascript">
         var sec = sessionStorage.getItem("file_name");
+        $(window).on("beforeunload", function (e) {
+            return "Bye now!";
+        });
         $(document).ready(function () {
             console.log(sessionStorage.getItem("file_name"));
-
-            /*if (sec == "xml") {
-                var docSpec = {
-                    onchange: function () {
-                        console.log("I been changed now!")
-                    },
-                    validate: function (obj) {
-                        console.log("I be validatin' now!")
-                    },
-                    elements: {
-                        "list": {
-                            menu: [{
-                                caption: "Append an <item>",
-                                action: Xonomy.newElementChild,
-                                actionParameter: "<item label=\"\">...</item>"
-                            }],
-                            onchange: function () {
-                                console.log("I been changed now!")
-                            },
-                            validate: function (obj) {
-                                console.log("I be validatin' now!")
-                            }
-                        },
-                        "item": {
-                            menu: [{
-                                caption: "Add label=\"something\"",
-                                action: Xonomy.newAttribute,
-                                actionParameter: { name: "label", value: "" },
-                                hideIf: function (jsElement) {
-                                    return jsElement.hasAttribute("label");
-                                }
-                            }, {
-                                caption: "Delete this <item>",
-                                action: Xonomy.deleteElement
-                            }, {
-                                caption: "New <item> before this",
-                                action: Xonomy.newElementBefore,
-                                actionParameter: "<item>...</item>"
-                            }, {
-                                caption: "New <item> after this",
-                                action: Xonomy.newElementAfter,
-                                actionParameter: "<item label=\"\">...</item>"
-                            }],
-                            canDropTo: ["list"],
-                            attributes: {
-                                "label": {
-                                    asker: Xonomy.askString,
-                                    menu: [{
-                                        caption: "Delete this label",
-                                        action: Xonomy.deleteAttribute
-                                    }]
-                                }
-                            }
-                        }
-                    }
-                }
-                var xml = "<list><item label='one'> hi </item><item label='two'> hello </item></list>";
-                var editor = document.getElementById("editor");
-                Xonomy.render(xml, editor, docSpec);
-                console.log("hello");
-            }*/
-            //else {
             $.ajaxSetup({
                 // Disable caching of AJAX responses
                 cache: false
@@ -84,7 +25,334 @@
             $.get("../fichier_xml/" + sec, function start(data) {
                 console.log(data);
                 if (sec == "ELISE_COURRIERS_54.xml") {
-                    var docSpec = {};
+                    var docSpec = {
+                        onchange: function () {
+                            console.log("I been changed now!")
+                        }, //
+                        validate: function (obj) {
+                            console.log("I be validatin' now!")
+                        }, //
+                        elements: {
+                            "MENU": {
+                                menu: [{
+                                    caption: "Add ID=\"MES_COURRIERS\"",
+                                    action: Xonomy.newAttribute,
+                                    actionParameter: { name: "ID", value: "" },
+                                    hideIf: function (jsElement) {
+                                        return jsElement.hasAttribute("ID");
+                                    }
+                                },
+                                {
+                                    caption: "Append a <FOLDERS>",
+                                    action: Xonomy.newElementChild,
+                                    actionParameter: "<MENU ID=\"\">...</MENU>"
+                                },
+                                {
+                                    caption: "Delete this <MENU>",
+                                    action: Xonomy.deleteElement
+                                }
+                                ],
+                                attributes: {
+                                    "ID": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this ID",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    }
+                                }
+                            },
+                            "FOLDERS": {
+                                menu: [{
+                                    caption: "Add DEFAULT_FOLDER=\"FOLDER_NOUVEAU\"",
+                                    action: Xonomy.newAttribute,
+                                    actionParameter: { name: "DEFAULT_FOLDER", value: "" },
+                                    hideIf: function (jsElement) {
+                                        return jsElement.hasAttribute("DEFAULT_FOLDER");
+                                    }
+                                },
+                                {
+                                    caption: "Append a <FOLDER>",
+                                    action: Xonomy.newElementChild,
+                                    actionParameter: "<FOLDERS DEFAULT_FOLDER=\"\">...<FOLDERS>"
+                                },
+                                {
+                                    caption: "Delete this <FOLDERS>",
+                                    action: Xonomy.deleteElement
+                                },
+                                {
+                                    caption: "New <FOLDERS> before this",
+                                    action: Xonomy.newElementBefore,
+                                    actionParameter: "<FOLDERS>...</FOLDERS>"
+                                },
+                                {
+                                    caption: "New <FOLDERS> after this",
+                                    action: Xonomy.newElementBefore,
+                                    actionParameter: "<FOLDERS>...</FOLDERS>"
+                                },
+                                ],
+                                attributes: {
+                                    "DEFAULT_FOLDER": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this label",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    }
+                                }
+
+                            },
+
+                            "FOLDER": {
+                                menu: [
+                                    {
+                                        caption: "Append a <RIGHT>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<RIGHT/>"
+
+                                    },
+                                    {
+                                        caption: "Append a <LABEL>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<LABEL>...</LABEL>"
+                                    },
+                                    {
+                                        caption: "Append a <DESCRIPTION>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<DESCRIPTION>...</DESCRIPTION>"
+                                    },
+                                    {
+                                        caption: "Append a <ICON>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<ICON>...</ICON>"
+                                    },
+                                    {
+                                        caption: "Append a <ICONVISUEL>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<ICONVISUEL>...</ICONVISUEL>"
+                                    },
+                                    {
+                                        caption: "Append a <XMLSEARCH>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<XMLSEARCH TYPE=\"\" >...</XMLSEARCH>"
+                                    },
+
+                                    {
+                                        caption: "Append a <LISTDISPLAYCANVAS>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<LISTDISPLAYCANVAS>...</LISTDISPLAYCANVAS>"
+                                    },
+                                    {
+                                        caption: "Append a <ADDON>",
+                                        action: Xonomy.newElementChild,
+                                        actionParameter: "<ADDON>...</ADDONS>"
+                                    },
+                                    {
+                                        caption: "Delete this <FOLDER>",
+                                        action: Xonomy.deleteElement
+                                    },
+                                    {
+                                        caption: "New <FOLDER> before this",
+                                        action: Xonomy.newElementBefore,
+                                        actionParameter: "<FOLDER>...</FOLDER>"
+                                    },
+                                    {
+                                        caption: "New <FOLDER> after this",
+                                        action: Xonomy.newElementBefore,
+                                        actionParameter: "<FOLDER>...</FOLDER>"
+
+
+                                    },
+                                    {
+                                        caption: "Add SCOPE=\"ALL\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "SCOPE", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("SCOPE");
+                                        }
+                                    },
+                                    {
+                                        caption: "Add ID=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "ID", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("ID");
+                                        }
+                                    },
+                                    {
+                                        caption: "Add SHOWNUMBER=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "SHOWNUMBER", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("SHOWNUMBER");
+                                        }
+                                    },
+                                    {
+                                        caption: "Add POSITION=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "POSITION", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("POSITION");
+                                        }
+                                    },
+                                    {
+                                        caption: "Add CLOSED=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "CLOSED", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("CLOSED");
+                                        }
+                                    },
+                                    {
+                                        caption: "TYPE=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "TYPE", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("TYPE");
+                                        }
+                                    },
+                                    {
+                                        caption: "WML=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "WML", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("WML");
+                                        }
+                                    }],
+                                attributes: {
+                                    "SCOPE": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this SCOPE",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+
+                                    "ID": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this ID",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+                                    "SHOWNUMBER": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this SHOWNUMBER",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+                                    "POSITION": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this POSITION",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+                                    "CLOSED": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this CLOSED",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+                                    "TYPE": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this TYPE",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    },
+
+                                    "WML": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this WML",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    }
+                                }
+                            },
+                            "LABEL": {
+                                menu: [{
+                                    caption: "Delete this <LABEL>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+
+                            "DESCRIPTION": {
+                                menu: [{
+                                    caption: "Delete this <DESCRIPTION>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+
+                            "ICON": {
+                                menu: [{
+                                    caption: "Delete this <ICON>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+
+                            "ICONVISUEL": {
+                                menu: [{
+                                    caption: "Delete this <ICONVISUEL>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+
+                            "XMLSEARCH": {
+                                menu: [
+                                    {
+                                        caption: "Add TYPE=\"\"",
+                                        action: Xonomy.newAttribute,
+                                        actionParameter: { name: "TYPE", value: "" },
+                                        hideIf: function (jsElement) {
+                                            return jsElement.hasAttribute("TYPE");
+                                        }
+                                    },
+                                    {
+                                        caption: "Delete this <XMLSEARCH>",
+                                        action: Xonomy.deleteElement
+                                    }],
+                                canDropTo: ["FOLDER"],
+                                attributes: {
+                                    "TYPE": {
+                                        asker: Xonomy.askString,
+                                        menu: [{
+                                            caption: "Delete this TYPE",
+                                            action: Xonomy.deleteAttribute
+                                        }]
+                                    }
+                                }
+                            },
+
+                            "LISTDISPLAYCANVAS": {
+                                menu: [{
+                                    caption: "Delete this <LISTDISPLAYCANVAS>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+
+                            "ADDON": {
+                                menu: [{
+                                    caption: "Delete this <ADDON>",
+                                    action: Xonomy.deleteElement
+                                }],
+                                canDropTo: ["FOLDER"],
+                            },
+                        }
+                    }
                     var editor = document.getElementById("editor");
                     Xonomy.render(data, editor, docSpec);
                 }
@@ -308,7 +576,7 @@
                             },
                             "format": {
                                 menu: [{
-                                    caption: "Delete this <currency>",
+                                    caption: "Delete this <format>",
                                     action: Xonomy.deleteElement
                                 }],
                                 canDropTo: ["source", "target"],
@@ -578,7 +846,6 @@
                     Xonomy.render(data, editor, docSpec);
                 }
             }, "xml")
-            //}
         });
 
         $("button").click(function () {
@@ -609,7 +876,7 @@
             overflow-x: auto;
             overflow-y: auto;
             font-size: 17px;
-            width: 700px;
+            width: 900px;
             height: 500px;
             position: relative;
             left: 100px;
@@ -631,8 +898,8 @@
     <div class="col-lg-4" id="editor"></div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
-        <button class="btn valider" type="submit" style=" float:right">valider</button>
+    <div class="col-lg-10">
+        <button class="btn valider" type="submit" style=" float:right">Modifier</button>
     </div>
     <br />
 </div>
