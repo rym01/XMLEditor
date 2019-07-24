@@ -12,8 +12,10 @@
     @Scripts.Render("~/bundles/xonomyjs")
     <script type="text/javascript">
         var sec = sessionStorage.getItem("file_name");
+        var edited = false;
         $(window).on("beforeunload", function (e) {
-            return "Bye now!";
+            if (edited == false)
+                return "Bye now!";
         });
         $(document).ready(function () {
             console.log(sessionStorage.getItem("file_name"));
@@ -849,14 +851,14 @@
         });
 
         $("button").click(function () {
-
+            edited = true;
             var xml = Xonomy.harvest();
             $.ajax({
                 type: 'POST',
                 url: '/Home/Submit',
                 data: { xml_data: xml },
                 success: function (response) {
-                    alert("success");
+                    alert("succès");
                     window.location.href = "/Home/AfficheComparaison";
                 }, error: function (e) {
                     console.log(e.responseText);
@@ -889,9 +891,13 @@
 }
 <h2>Modification</h2>
 <div style="font-size:larger">
-    <p><b>Vous désirez effectuer quelques modifications, ci-dessous vous aurez la chance d'apporter vos modifications les plus désirées.</b></p>
-    <p><b>Qu'est-ce que vous attendez ?</b></p>
-    <p><b>A l'attaque!</b></p>
+    <p>
+        Vous désirez effectuer quelques changements? Ci-dessous vous aurez la chance de le faire!
+        <br />
+        Qu'est-ce que vous attendez ?
+        <br />
+        A l'attaque!
+    </p>
 </div>
 <br />
 <div class="row">

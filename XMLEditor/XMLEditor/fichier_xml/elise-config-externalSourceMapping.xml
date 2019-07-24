@@ -1,8 +1,7 @@
 <configuration>
   <config name="MappingName">
-    <property source="sp-ackDate" target="AcknowledgmentDate">
+    <property>
       <source>
-        <format>dd/MM/yyyy</format>
       </source>
     </property>
     <property source="sp-ackInfo" target="AcknowledgmentInformations" />

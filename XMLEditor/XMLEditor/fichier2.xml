@@ -1,269 +1,174 @@
-<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <config name="SharingMappingName">
-    <filters>
-      <property source="Direction">
-        <predicates>
-          <equals>All</equals>
-        </predicates>
-      </property>
-    </filters>
-    <property source="MailId" target="sp-id" defaultSource="">
-      <source>
-        <regex>
-        </regex>
-      </source>
-      <map>
-        <add key="" value="ceci est un message de test" />
-      </map>
-      <target>
-        <format>
-        </format>
-      </target>
-    </property>
-    <property source="Chrono" target="sp-chr" />
-    <property source="Url" target="sp-url" />
-    <property source="Direction" target="sp-dir">
-      <source>
-        <format />
-      </source>
-    </property>
-    <property source="MailDate" target="sp-date">
-      <source>
-        <format>
-        </format>
-      </source>
-    </property>
-    <property source="Subject" target="sp-subj" />
-    <property source="Description" target="sp-desc" />
-    <property source="Commentary" target="sp-comm" />
-    <property source="Reference" target="sp-ref" />
-    <property source="Reported" target="sp-rep" />
-    <property source="AcknowledgmentDate" target="sp-ackDate" />
-    <property source="AcknowledgmentReference" target="sp-ackRef" />
-    <property source="AcknowledgmentInformations" target="sp-ackInf" />
-    <property source="IsAcknowledgmentAvailable" target="sp-ackAvai" />
-    <property source="DueDate" target="sp-dueDate" />
-    <property source="AlertDate" target="sp-alertDate" />
-    <property source="SendingDate" target="sp-sendingDate" />
-    <property source="ArchiveMessage" target="sp-archiveMsg" />
-    <property source="LastUpdated" target="sp-dir" />
-    <property source="SimpleSenderName" target="sp-sender" />
-    <property source="CreatedBy" target="sp-creator">
-      <map>
-        <ldapAttribute>MainServiceSecondaryId</ldapAttribute>
-      </map>
-    </property>
-    <property source="DistributedBy" target="sp-distributor">
-      <map>
-        <ldapAttribute>SamAccountName</ldapAttribute>
-      </map>
-    </property>
-    <property source="SentBy" target="sp-sender">
-      <map>
-        <ldapAttribute>UserName</ldapAttribute>
-      </map>
-    </property>
-    <property source="ClosedBy" target="sp-closer">
-      <map>
-        <ldapAttribute>MainServiceEmail</ldapAttribute>
-      </map>
-    </property>
-    <property source="ArchivedBy" target="sp-archiver">
-      <map>
-        <ldapAttribute>MainServiceSID</ldapAttribute>
-      </map>
-    </property>
-    <property source="LastUpdatedBy" target="sp-Lupdater">
-      <map>
-        <ldapAttribute>p-distinguishedName</ldapAttribute>
-      </map>
-    </property>
-    <property source="InternalSender" target="sp-inSender">
-      <map>
-        <ldapAttribute>email</ldapAttribute>
-      </map>
-    </property>
-    <property source="FirstInternalRecipient" target="sp-inRecipient">
-      <map>
-        <ldapAttribute>MainServiceName</ldapAttribute>
-      </map>
-    </property>
-    <property source="InternalRecipients" target="sp-inRecipients">
-      <map>
-        <ldapAttribute>SamAccountName</ldapAttribute>
-      </map>
-    </property>
-    <property source="FirstWriter" target="sp-writer">
-      <map>
-        <ldapAttribute>SecondaryID</ldapAttribute>
-      </map>
-    </property>
-    <property source="Writers" target="sp-writers">
-      <map>
-        <ldapAttribute>UserName</ldapAttribute>
-      </map>
-    </property>
-    <property source="Support" target="sp-support">
-      <map>
-        <type>description</type>
-      </map>
-    </property>
-    <property source="ExternalSender" target="sp-exSender">
-      <map>
-        <type>customField-1</type>
-      </map>
-    </property>
-    <property source="FirstExternalRecipient" target="sp-exRecipient">
-      <map>
-        <type>name</type>
-      </map>
-    </property>
-    <property source="ExternalRecipients" target="sp-exRecipients">
-      <map>
-        <type>email</type>
-      </map>
-    </property>
-    <property source="MailType" target="sp-mailType">
-      <map>
-        <type>code</type>
-      </map>
-    </property>
-    <property source="AttachmentModel" target="sp-attModel">
-      <map>
-        <type>title</type>
-      </map>
-    </property>
-    <property source="AcknowledgmentShipper" target="sp-ackShipper">
-      <map>
-        <type>title</type>
-      </map>
-    </property>
-    <property source="AnswerRequired" target="sp-answerRequired">
-      <map>
-        <type>id</type>
-      </map>
-    </property>
-    <property source="ClosureReason" target="sp-closureReason">
-    </property>
-    <property source="REOpenReason" target="sp-reopenReason">
-    </property>
-    <property source="CP_TEST" target="sp-cptest">
-    </property>
-    <property source="CP_DATE" target="sp-cpdate">
-      <source>
-        <format>
-        </format>
-      </source>
-    </property>
-    <property source="CP_NOMBRE" target="sp-cpnb">
-    </property>
-    <property source="MOTSCLES" target="sp-motcles">
-    </property>
-    <property source="CP_MAIL" target="sp-cpmail">
-    </property>
-    <property source="CP_TEL" target="sp-cptel">
-    </property>
-    <property source="CP_MONTANT" target="sp-cpmontant">
-      <source>
-        <currency>€</currency>
-        <decimalSeparator>,</decimalSeparator>
-        <groupSeparator>.</groupSeparator>
-      </source>
-    </property>
-    <property source="CP_CONTACT" target="sp-cfcontact">
-      <map>
-        <type>email</type>
-      </map>
-    </property>
-    <property source="CP_PLOP" target="sp-cfenum">
-      <map>
-        <type>label</type>
-      </map>
-    </property>
-    <property source="CP_ORGA" target="sp-cporga">
-      <map>
-        <ldapAttribute>MainServiceSecondaryId</ldapAttribute>
-      </map>
-    </property>
-    <property source="CP_FLOWCHART" target="sp-cpflw">
-      <map>
-        <ldapAttribute>p-distinguishedName</ldapAttribute>
-      </map>
-    </property>
-    <property source="CP_REFERENTIAL" target="sp-cpreferential" />
-    <property source="CLASSEMENT" target="sp-cplex">
-      <map>
-        <type>SHAREPOINT_IS_DEPRECATED</type>
-      </map>
-    </property>
-    <config>
-      <property source="Description" target="sp-description" override="true" />
-      <property source="Description" target="sp-chrono" />
-    </config>
-  </config>
-  <config name="EliseStatistics">
-    <property source="Subject" target="FieldString30" />
-    <property source="CP_NOM_PRENOM" target="FieldString02" />
-    <property source="CP_DEM_DESIGN_REP_COM_NOM" target="FieldString00" />
-    <property source="CP_STRUCTURE_INT_EXT" target="FieldString01" /> 
-    <property source="CP_GRADE" target="FieldString03" /><property source="CP_DEM_CONGE_PERIODE" target="FieldString06" /><property source="CP_FACTURE_FRNS_ETAPE_TRAIT" target="FieldString07"><map><type>label</type></map></property><property source="CP_FACTURE_FRNS_REFERENCE" target="FieldString08" /><property source="CP_FACTURE_FRNS_NUM" target="FieldString11" /><property source="CP_STRUCTURE_INT_EXT" target="FieldString12" /><property source="CP_OM_DESTINATION" target="FieldString13" /><property source="CP_OM_ETAPE_TRAIT" target="FieldString14"><map><type>label</type></map></property><property source="CP_STRUCTURE_INT_EXT" target="FieldString18" /><property source="CP_RECLAMATION_OBJET" target="FieldString19"><map><type>label</type></map></property><property source="CP_RECLAMATION_TYPE" target="FieldString20"><map><type>label</type></map></property><property source="CP_DEM_CONGE_DATE_DEB" target="FieldDate01"><source><format /></source></property>  
-    <property source="CP_DEM_CONGE_DATE_FIN" target="FieldDate02"><source><format /></source></property>         
-    <property source="CP_FACTURE_FRNS_DATE" target="FieldDate03"><source><format /></source></property> 
-    <property source="CP_OM_DATE_DEP" target="FieldDate04"><source><format /></source></property>    
-    <property source="CP_OM_DATE_ARV" target="FieldDate05"><source><format /></source></property> 
-    <property source="CP_DEM_DESIGN_REP_DATE_REUNION" target="FieldDate06"><source><format /></source></property><property source="CP_FACTURE_FRNS_MONTANT" target="FieldInt00" /></config>
-  <config name="DemandeConge">
-    <property source="Chrono" target="sp-chr" />
-    <property source="Url" target="sp-url" />
-    <property source="Direction" target="sp-dir" />
-    <property source="CreatedBy" target="CP_DEM_CONGE_ID">
-      <map>
-        <ldapAttribute>EmployeeID</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_FONCTION">
-      <map>
-        <ldapAttribute>title</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_GRADE">
-      <map>
-        <ldapAttribute>personalTitle</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_NOM_PRENOM">
-      <map>
-        <ldapAttribute>displayName</ldapAttribute>
-      </map>
-    </property>
-  </config>
-  <config name="Open311">
-    <property source="Subject" target="o311-title" />
-    <property source="Description" target="o311-description" />
-    <property source="DueDate" target="o311-expectedDateTime" />
-    <property source="MailDate" target="o311-createdOn" />
-    <property source="Chrono" target="o311-chrono" />
-    <property source="CP_O311GR_LOCALE" target="o311-locale" />
-    <property source="CP_O311GR_SERVICE_REQUEST_ID" target="o311-serviceRequestId" />
-    <property source="CP_O311GR_CITIZEN_SERVICE" target="o311-serviceCode">
-      <map>
-        <type>id</type>
-      </map>
-    </property>
-    <property source="CP_O311GR_SERVICE_NOTICE" target="o311-serviceNotice" />
-    <property source="CP_O311GR_REQ_ADDR" target="o311-adressString" />
-    <property source="CP_O311GR_UPDATED_ADDR" target="o311-adressStringUpdated" />
-    <property source="CP_O311GR_UPDATED_ADDR_ZIPCODE" target="o311-zipcode" />
-    <property source="CP_O311GR_DEVICE_ID" target="o311-deviceId" />
-    <property source="CP_O311GR_REQ_ACCOUNT_ID" target="o311-accountId" />
-    <property source="CP_O311GR_REQ_LAT" target="o311-latitudeReq" />
-    <property source="CP_O311GR_REQ_LONG" target="o311-longitudeReq" />
-    <property source="CP_O311GR_UPDATED_LAT" target="o311-latitudeUpdated" />
-    <property source="CP_O311GR_UPDATED_LONG" target="o311-longitudeUpdated" />
-    <property source="CP_O311GR_AGENCY_RESPONSIBLE" target="o311-agencyResponsible" />
-    <property source="CP_O311GR_DETAILED_STATUS" target="o311-detailedStatus" />
-    <property source="CP_O311GR_STATUS" target="o311-georeportStatus" />
-    <property source="CP_O311GR_STATUS_NOTE" target="o311-statusNote" />
-    <property source="CP_O311GR_LAST_UPDATE_SENT" target="o311-modifiedOn" />
-  </config>
-</configuration>
+<MENU ID="MES_COURRIERS">
+  <FOLDERS DEFAULT_FOLDER="FOLDER_NOUVEAU_54">
+    <FOLDER SCOPE="ALL" ID="FOLDER_EN_RETARD_54" SHOWNUMBER="ONINIT" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <ICONVISUEL>elise/tree-list/mail-warning.gif</ICONVISUEL>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_EN_RETARD_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_EN_RETARD_54</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_NOUVEAU_54" SHOWNUMBER="YES" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/NOUVEAUX54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/NOUVEAUX54_DESC</DESCRIPTION>
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_NOUVEAU_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-nouveau.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_NOUVEAUX_54</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_ENCOURS_54" SHOWNUMBER="YES" POSITION="1" CLOSED="YES" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/ENCOURS54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/ENCOURS54_DESC</DESCRIPTION>
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_EN_COURS_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_EN_COURS_54</ADDON>
+      <FOLDER SCOPE="ALL" ID="FOLDER_ENCOURS_ACTION_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/ENCOURSACTION54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/ENCOURSACTION54_DESC</DESCRIPTION>
+        <ICON>elise/contextmenu/fc-traitement.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_EN_COURS_ACTION_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_EN_COURS_ACTION_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_ENCOURS_INFO_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/ENCOURSINFO54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/ENCOURSINFO54_DESC</DESCRIPTION>
+        <ICON>elise/contextmenu/fc-informations.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_EN_COURS_INFO_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_EN_COURS_INFO_54</ADDON>
+      </FOLDER>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_A_SIGNER" SHOWNUMBER="YES" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" ROLEID="">
+      <RIGHT />
+      <LABEL>ELISE/INTEGRATION/MENU_LEFT/GESTION_COURRIERS_A_SIGNER</LABEL>
+      <DESCRIPTION>ELISE/INTEGRATION/MENU_LEFT/GESTION_COURRIERS_A_SIGNER_DESC</DESCRIPTION>
+      <ICON>elise/icones/signature-orange.png</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_A_SIGNER</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-standard.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_A_SIGNER</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_A_VALIDER" SHOWNUMBER="YES" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" ROLEID="">
+      <RIGHT />
+      <LABEL>ELISE/INTEGRATION/MENU_LEFT/GESTION_COURRIERS_A_VALIDER</LABEL>
+      <DESCRIPTION>ELISE/INTEGRATION/MENU_LEFT/GESTION_COURRIERS_A_VALIDER_DESC</DESCRIPTION>
+      <ICON>elise/icones/signature-orange.png</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_A_VALIDER</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-standard.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_A_VALIDER</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_SUIVI_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/SUIVI54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/SUIVI54_DESC</DESCRIPTION>
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_SUIVI_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_SUIVI_54</ADDON>
+      <FOLDER SCOPE="ALL" ID="FOLDER_SUIVI_PROBLEME_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/SUIVIPROBLEME54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/SUIVIPROBLEME54_DESC</DESCRIPTION>
+        <ICON>elise/contextmenu/warning.png</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_SUIVI_PROBLEME_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_SUIVI_PROBLEME_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_SUIVI_A_DECIDER_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/SUIVIADECIDER54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/SUIVIADECIDER54_DESC</DESCRIPTION>
+        <ICON>elise/contextmenu/mail-suite.png</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_SUIVI_A_DECIDER_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_SUIVI_A_DECIDER_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="User" ID="FOLDER_SUIVI_COURRIERS_CREES_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/SUIVICREES54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/SUIVICREES54_DESC</DESCRIPTION>
+        <ICON>elise/contextmenu/mail-created.png</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_SUIVI_CREES_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_SUIVI_CREES_54</ADDON>
+      </FOLDER>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_TERMINE_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/TERMINE54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/TERMINE54_DESC</DESCRIPTION>
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_TERMINE_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_TERMINE_54</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_CLOS_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/CLOS54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/CLOS54_DESC</DESCRIPTION>
+      <ICON>elise/contextmenu/closed.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_CLOS_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-clos.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_CLOS_54</ADDON>
+    </FOLDER>
+    <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" HIDDEN="TRUE" APPLICATIONS="ELISEFLOW">
+      <RIGHT />
+      <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_54</LABEL>
+      <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_54_DESC</DESCRIPTION>
+      <ICON>elise/tree-list/tree-folder.gif</ICON>
+      <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_54</XMLSEARCH>
+      <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+      <ADDON>COURRIERS_DOCUMENTLIST_54</ADDON>
+      <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_TODO_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" APPLICATIONS="ELISEFLOW">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_TODO_54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_TODO_54_DESC</DESCRIPTION>
+        <ICON>elise/tree-list/tree-flag-waiting.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_TODO_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_DOCUMENTLIST_TODO_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_SIGN_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" APPLICATIONS="ELISEFLOW">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_SIGN_54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_SIGN_54_DESC</DESCRIPTION>
+        <ICON>elise/tree-list/tree-flag-waiting.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_SIGN_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_DOCUMENTLIST_SIGN_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_INFO_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" APPLICATIONS="ELISEFLOW">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_INFO_54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_INFO_54_DESC</DESCRIPTION>
+        <ICON>elise/tree-list/tree-flag-waiting.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_INFO_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_DOCUMENTLIST_INFO_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_REFUSED_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" APPLICATIONS="ELISEFLOW">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_REFUSED_54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_REFUSED_54_DESC</DESCRIPTION>
+        <ICON>elise/tree-list/tree-flag-refused.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_REFUSED_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_DOCUMENTLIST_REFUSED_54</ADDON>
+      </FOLDER>
+      <FOLDER SCOPE="ALL" ID="FOLDER_DOCUMENTLIST_COMPLETED_54" SHOWNUMBER="NO" POSITION="1" CLOSED="NO" TYPE="action" WML="TRUE" APPLICATIONS="ELISEFLOW">
+        <RIGHT />
+        <LABEL>ELISE/MENU_LEFT/DOCUMENTLIST_COMPLETED_54</LABEL>
+        <DESCRIPTION>ELISE/MENU_LEFT/DOCUMENTLIST_COMPLETED_54_DESC</DESCRIPTION>
+        <ICON>elise/tree-list/tree-flag-valid.gif</ICON>
+        <XMLSEARCH TYPE="STORED">COURRIERS_MENU_DOCUMENTLIST_COMPLETED_54</XMLSEARCH>
+        <LISTDISPLAYCANVAS>elise-config-list-std-courrier.xml</LISTDISPLAYCANVAS>
+        <ADDON>COURRIERS_DOCUMENTLIST_COMPLETED_54</ADDON>
+      </FOLDER>
+    </FOLDER>
+  </FOLDERS>
+</MENU>

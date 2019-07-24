@@ -16,7 +16,7 @@ namespace XMLEditor.Controllers
     public class HomeController : Controller
     {
         readonly string connectionString = "server=localhost;user id=root;database=xmleditor";
-        string diffile = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/diffile.xml";
+        public static string diffile;
         XmlDiffOptions diffOptions = new XmlDiffOptions();
         XmlDiff diff = new XmlDiff();
 
@@ -79,15 +79,18 @@ namespace XMLEditor.Controllers
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
-
-            //save changes in the origin file
+            //add to the log file
+            SaveLog();
+            //add diffile in ChangeLog
+            diffile = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/ChangeLog/" + Session["file_name"] + "_" +  DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "_" + Session["user_name"]+".xml";
+          
             string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
-            /* string file2 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier2.xml";
+            string file2 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier2.xml";
              XmlDocument doc2 = new XmlDocument();
              doc2.LoadXml(xml_data);
              doc2.Save(file2);
              bool isEqual = DoCompare(file1, file2);
-             if (!isEqual)
+             /*if (!isEqual)
              {
                  StringWriter sw = new StringWriter();
 
@@ -112,6 +115,7 @@ namespace XMLEditor.Controllers
                  reader.Close();
 
              }*/
+             //save changes in origin file
             string ch = " xml:space='preserve'";
             while (xml_data.Contains(ch))
             {
@@ -267,7 +271,7 @@ namespace XMLEditor.Controllers
 
         bool DoCompare(string file1, string file2)
         {
-
+            System.Diagnostics.Debug.WriteLine("red" + diffile.ToString());
             XmlTextWriter tw = new XmlTextWriter(new StreamWriter(diffile));
             tw.Formatting = Formatting.Indented;
             SetDiffOptions();
@@ -307,7 +311,18 @@ namespace XMLEditor.Controllers
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
+            SaveLog();
             return RedirectToAction("Index","Home");
+        }
+
+        public void SaveLog()
+        {
+            string log = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/Log.txt";
+            using (StreamWriter file =
+            new StreamWriter(log, true))
+            {
+                file.WriteLine(DateTime.Now+" | Modification du fichier xml "+ Session["file_name"] + " | par " +Session["user_name"]+" voir le dossier Changelog à cette date pour avoir un aperçu du changement.");
+            }
         }
     }
 }
