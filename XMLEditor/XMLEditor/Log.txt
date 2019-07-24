@@ -9,3 +9,4 @@
 24-Jul-19 10:00:29 AM | Modification du fichier xml ELISE_COURRIERS_54.xml | par yfy voir le change log à cette date pour avoir un aperçu du changement.
 24-Jul-19 10:04:25 AM | Modification du fichier xml ELISE_COURRIERS_54.xml | par yfy voir le change log à cette date pour avoir un aperçu du changement.
 24-Jul-19 10:06:01 AM | Modification du fichier xml ELISE_COURRIERS_54.xml | par yfy voir le change log à cette date pour avoir un aperçu du changement.
+24-Jul-19 11:35:46 AM | Modification du fichier xml elise-config-sharingMapping.xml | par dhehe voir le dossier Changelog à cette date pour avoir un aperçu du changement.

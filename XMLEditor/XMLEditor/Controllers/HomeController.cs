@@ -82,6 +82,7 @@ namespace XMLEditor.Controllers
             //add to the log file
             SaveLog();
             //add diffile in ChangeLog
+
             diffile = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/ChangeLog/" + Session["file_name"] + "_" +  DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "_" + Session["user_name"]+".xml";
           
             string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
@@ -89,7 +90,7 @@ namespace XMLEditor.Controllers
              XmlDocument doc2 = new XmlDocument();
              doc2.LoadXml(xml_data);
              doc2.Save(file2);
-             bool isEqual = DoCompare(file1, file2);
+             bool isEqual = DoCompare(file1, file2,diffile);
              /*if (!isEqual)
              {
                  StringWriter sw = new StringWriter();
@@ -210,7 +211,8 @@ namespace XMLEditor.Controllers
             doc2.LoadXml((string)Session["xml_selected"]);
             doc2.Save(file2);
             string file1 = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/fichier_xml/" + Session["file_name"];
-            bool isEqual = DoCompare(file2, file1);
+            string diff = "C:/Users/Rym/Documents/XMLEditor/XMLEditor/XMLEditor/Compare.xml";
+            bool isEqual = DoCompare(file2, file1,diff);
             if (isEqual)
             {
                 System.Diagnostics.Debug.WriteLine("Files Identical for the given options");
@@ -223,7 +225,7 @@ namespace XMLEditor.Controllers
 
             //Load the original file again and the diff file.
             XmlTextReader orig = new XmlTextReader(file2);
-            XmlTextReader diffGram = new XmlTextReader(diffile);
+            XmlTextReader diffGram = new XmlTextReader(diff);
             dv.Load(orig, diffGram);
 
             //Wrap the HTML file with necessary html and 
@@ -269,10 +271,11 @@ namespace XMLEditor.Controllers
             diff.Options = diffOptions;
         }
 
-        bool DoCompare(string file1, string file2)
+        bool DoCompare(string file1, string file2,string df)
         {
-            System.Diagnostics.Debug.WriteLine("red" + diffile.ToString());
-            XmlTextWriter tw = new XmlTextWriter(new StreamWriter(diffile));
+
+            System.Diagnostics.Debug.WriteLine("red" + df.ToString());
+            XmlTextWriter tw = new XmlTextWriter(new StreamWriter(df));
             tw.Formatting = Formatting.Indented;
             SetDiffOptions();
             bool isEqual = false;
