@@ -1,269 +1,204 @@
-<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <config name="SharingMappingName">
-    <filters>
-      <property source="Direction">
-        <predicates>
-          <equals>All</equals>
-        </predicates>
-      </property>
-    </filters>
-    <property source="MailId" target="sp-id" defaultSource="">
+<configuration>
+  <config name="MappingName">
+    <property source="sp-ackDate" target="AcknowledgmentDate">
       <source>
-        <regex>
-        </regex>
+        <format>dd/MM/yyyy</format>
       </source>
+    </property>
+    <property source="sp-ackInfo" target="AcknowledgmentInformations" />
+    <property source="sp-ackLevel" target="AcknowledgmentLevel" defaultSource="Registered" />
+    <property source="sp-ackRef" target="AcknowledgmentReference" />
+    <property source="sp-alertDate" target="AlertDate">
+      <source>
+        <format>dd-MM-yyyy</format>
+      </source>
+    </property>
+    <property source="sp-comment" target="Commentary" />
+    <property source="sp-confidentiality" target="Confidentiality" />
+    <property source="sp-description" target="Description" />
+    <property source="sp-dir" target="Direction">
+      <map>
+        <add key="0" value="OutGoingMail" />
+        <add key="1" value="InMail" />
+        <add key="2" value="InternalMail" />
+      </map>
+    </property>
+    <property source="sp-dueDate" target="DueDate">
+      <source>
+        <format>dd-MM-yyyy</format>
+      </source>
+    </property>
+    <property source="sp-ackAvailable" target="IsAcknowledgmentAvailable">
+      <map>
+        <add key="+" value="true" />
+        <add key="-" value="false" />
+      </map>
+    </property>
+    <property source="sp-date" target="MailDate">
+      <source>
+        <regex />
+        <format>yyyy-MM-dd</format>
+      </source>
+    </property>
+    <property source="sp-type" target="MailType" defaultSource="myKey">
+      <map>
+        <add key="myKey" value="STANDARD" type="code" />
+        <sort>
+          <id>TRI_COURRIERS_TYPE_SOMMAIRE</id>
+          <set>COURRIERS_TYPE</set>
+          <form>0</form>
+          <key>1</key>
+        </sort>
+      </map>
+    </property>
+    <property source="sp-priority" target="Priority" />
+    <property source="sp-ref" target="Reference" />
+    <property source="sp-reported" target="Reported" />
+    <property source="sp-sendingDate" target="SendingDate" />
+    <property source="sp-subject" target="Subject" defaultSource="">
       <map>
         <add key="" value="ceci est un message de test" />
       </map>
-      <target>
-        <format>
-        </format>
-      </target>
     </property>
-    <property source="Chrono" target="sp-chr" />
-    <property source="Url" target="sp-url" />
-    <property source="Direction" target="sp-dir">
+    <property source="sp-support" target="Support" defaultSource="myKey">
       <source>
-        <format />
+        <regex />
       </source>
-    </property>
-    <property source="MailDate" target="sp-date">
-      <source>
-        <format>
-        </format>
-      </source>
-    </property>
-    <property source="Subject" target="sp-subj" />
-    <property source="Description" target="sp-desc" />
-    <property source="Commentary" target="sp-comm" />
-    <property source="Reference" target="sp-ref" />
-    <property source="Reported" target="sp-rep" />
-    <property source="AcknowledgmentDate" target="sp-ackDate" />
-    <property source="AcknowledgmentReference" target="sp-ackRef" />
-    <property source="AcknowledgmentInformations" target="sp-ackInf" />
-    <property source="IsAcknowledgmentAvailable" target="sp-ackAvai" />
-    <property source="DueDate" target="sp-dueDate" />
-    <property source="AlertDate" target="sp-alertDate" />
-    <property source="SendingDate" target="sp-sendingDate" />
-    <property source="ArchiveMessage" target="sp-archiveMsg" />
-    <property source="LastUpdated" target="sp-dir" />
-    <property source="SimpleSenderName" target="sp-sender" />
-    <property source="CreatedBy" target="sp-creator">
-      <map>
-        <ldapAttribute>MainServiceSecondaryId</ldapAttribute>
+      <map defaultItemType="code">
+        <add key="myKey" value="PAPIER" type="code" />
       </map>
     </property>
-    <property source="DistributedBy" target="sp-distributor">
+    <property source="sp-redactor" target="Redactor">
       <map>
-        <ldapAttribute>SamAccountName</ldapAttribute>
+        <ldapAttribute>p-adminDescription</ldapAttribute>
+        <useMainService>false</useMainService>
       </map>
     </property>
-    <property source="SentBy" target="sp-sender">
-      <map>
-        <ldapAttribute>UserName</ldapAttribute>
-      </map>
-    </property>
-    <property source="ClosedBy" target="sp-closer">
-      <map>
-        <ldapAttribute>MainServiceEmail</ldapAttribute>
-      </map>
-    </property>
-    <property source="ArchivedBy" target="sp-archiver">
-      <map>
-        <ldapAttribute>MainServiceSID</ldapAttribute>
-      </map>
-    </property>
-    <property source="LastUpdatedBy" target="sp-Lupdater">
-      <map>
-        <ldapAttribute>p-distinguishedName</ldapAttribute>
-      </map>
-    </property>
-    <property source="InternalSender" target="sp-inSender">
+    <property source="sp-signatory" target="Signatory">
       <map>
         <ldapAttribute>email</ldapAttribute>
+        <useMainService>false</useMainService>
       </map>
     </property>
-    <property source="FirstInternalRecipient" target="sp-inRecipient">
-      <map>
-        <ldapAttribute>MainServiceName</ldapAttribute>
-      </map>
-    </property>
-    <property source="InternalRecipients" target="sp-inRecipients">
-      <map>
-        <ldapAttribute>SamAccountName</ldapAttribute>
-      </map>
-    </property>
-    <property source="FirstWriter" target="sp-writer">
-      <map>
-        <ldapAttribute>SecondaryID</ldapAttribute>
-      </map>
-    </property>
-    <property source="Writers" target="sp-writers">
-      <map>
-        <ldapAttribute>UserName</ldapAttribute>
-      </map>
-    </property>
-    <property source="Support" target="sp-support">
-      <map>
-        <type>description</type>
-      </map>
-    </property>
-    <property source="ExternalSender" target="sp-exSender">
-      <map>
-        <type>customField-1</type>
-      </map>
-    </property>
-    <property source="FirstExternalRecipient" target="sp-exRecipient">
-      <map>
-        <type>name</type>
-      </map>
-    </property>
-    <property source="ExternalRecipients" target="sp-exRecipients">
+    <property source="sp-sender" target="ExternalSender">
       <map>
         <type>email</type>
+        <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
       </map>
     </property>
-    <property source="MailType" target="sp-mailType">
-      <map>
-        <type>code</type>
-      </map>
-    </property>
-    <property source="AttachmentModel" target="sp-attModel">
-      <map>
-        <type>title</type>
-      </map>
-    </property>
-    <property source="AcknowledgmentShipper" target="sp-ackShipper">
-      <map>
-        <type>title</type>
-      </map>
-    </property>
-    <property source="AnswerRequired" target="sp-answerRequired">
-      <map>
-        <type>id</type>
-      </map>
-    </property>
-    <property source="ClosureReason" target="sp-closureReason">
-    </property>
-    <property source="REOpenReason" target="sp-reopenReason">
-    </property>
-    <property source="CP_TEST" target="sp-cptest">
-    </property>
-    <property source="CP_DATE" target="sp-cpdate">
-      <source>
-        <format>
-        </format>
-      </source>
-    </property>
-    <property source="CP_NOMBRE" target="sp-cpnb">
-    </property>
-    <property source="MOTSCLES" target="sp-motcles">
-    </property>
-    <property source="CP_MAIL" target="sp-cpmail">
-    </property>
-    <property source="CP_TEL" target="sp-cptel">
-    </property>
-    <property source="CP_MONTANT" target="sp-cpmontant">
-      <source>
-        <currency>€</currency>
-        <decimalSeparator>,</decimalSeparator>
-        <groupSeparator>.</groupSeparator>
-      </source>
-    </property>
-    <property source="CP_CONTACT" target="sp-cfcontact">
-      <map>
-        <type>email</type>
-      </map>
-    </property>
-    <property source="CP_PLOP" target="sp-cfenum">
-      <map>
-        <type>label</type>
-      </map>
-    </property>
-    <property source="CP_ORGA" target="sp-cporga">
-      <map>
-        <ldapAttribute>MainServiceSecondaryId</ldapAttribute>
-      </map>
-    </property>
-    <property source="CP_FLOWCHART" target="sp-cpflw">
-      <map>
-        <ldapAttribute>p-distinguishedName</ldapAttribute>
-      </map>
-    </property>
-    <property source="CP_REFERENTIAL" target="sp-cpreferential" />
-    <property source="CLASSEMENT" target="sp-cplex">
-      <map>
-        <type>SHAREPOINT_IS_DEPRECATED</type>
-      </map>
-    </property>
-    <config>
-      <property source="Description" target="sp-description" override="true" />
-      <property source="Description" target="sp-chrono" />
-    </config>
-  </config>
-  <config name="EliseStatistics">
-    <property source="Subject" target="FieldString30" />
-    <property source="CP_NOM_PRENOM" target="FieldString02" />
-    <property source="CP_DEM_DESIGN_REP_COM_NOM" target="FieldString00" />
-    <property source="CP_STRUCTURE_INT_EXT" target="FieldString01" /> 
-    <property source="CP_GRADE" target="FieldString03" /><property source="CP_DEM_CONGE_PERIODE" target="FieldString06" /><property source="CP_FACTURE_FRNS_ETAPE_TRAIT" target="FieldString07"><map><type>label</type></map></property><property source="CP_FACTURE_FRNS_REFERENCE" target="FieldString08" /><property source="CP_FACTURE_FRNS_NUM" target="FieldString11" /><property source="CP_STRUCTURE_INT_EXT" target="FieldString12" /><property source="CP_OM_DESTINATION" target="FieldString13" /><property source="CP_OM_ETAPE_TRAIT" target="FieldString14"><map><type>label</type></map></property><property source="CP_STRUCTURE_INT_EXT" target="FieldString18" /><property source="CP_RECLAMATION_OBJET" target="FieldString19"><map><type>label</type></map></property><property source="CP_RECLAMATION_TYPE" target="FieldString20"><map><type>label</type></map></property><property source="CP_DEM_CONGE_DATE_DEB" target="FieldDate01"><source><format /></source></property>  
-    <property source="CP_DEM_CONGE_DATE_FIN" target="FieldDate02"><source><format /></source></property>         
-    <property source="CP_FACTURE_FRNS_DATE" target="FieldDate03"><source><format /></source></property> 
-    <property source="CP_OM_DATE_DEP" target="FieldDate04"><source><format /></source></property>    
-    <property source="CP_OM_DATE_ARV" target="FieldDate05"><source><format /></source></property> 
-    <property source="CP_DEM_DESIGN_REP_DATE_REUNION" target="FieldDate06"><source><format /></source></property><property source="CP_FACTURE_FRNS_MONTANT" target="FieldInt00" /></config>
-  <config name="DemandeConge">
-    <property source="Chrono" target="sp-chr" />
-    <property source="Url" target="sp-url" />
-    <property source="Direction" target="sp-dir" />
-    <property source="CreatedBy" target="CP_DEM_CONGE_ID">
-      <map>
-        <ldapAttribute>EmployeeID</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_FONCTION">
-      <map>
-        <ldapAttribute>title</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_GRADE">
-      <map>
-        <ldapAttribute>personalTitle</ldapAttribute>
-      </map>
-    </property>
-    <property source="CreatedBy" target="CP_NOM_PRENOM">
+    <property source="sp-internalRecipients" target="InternalRecipients">
       <map>
         <ldapAttribute>displayName</ldapAttribute>
+        <useMainService>false</useMainService>
       </map>
+    </property>
+    <property source="sp-externalRecipients" target="ExternalRecipients">
+      <map>
+        <type>name</type>
+        <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+      </map>
+    </property>
+    <property source="sp-cfcontact" target="CP_CONTACT">
+      <map>
+        <type>name</type>
+        <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
+      </map>
+    </property>
+    <property source="sp-cfflwcht" target="CP_ORGA">
+      <map>
+        <ldapAttribute>sid</ldapAttribute>
+        <useMainService>true</useMainService>
+      </map>
+    </property>
+    <property source="sp-cflex" target="CP_THESAU">
+      <map>
+        <idExtraPropertyName />
+      </map>
+    </property>
+    <property source="sp-cfref" target="CP_REF">
+      <map>
+        <add key="myKey" value="A_DISTRIBUER" />
+        <sort>
+          <id>TRI_COURRIERS_SUPPORT_SOMMAIRE</id>
+          <set>COURRIERS_SUPPORT</set>
+          <form>0</form>
+          <key>1</key>
+        </sort>
+      </map>
+    </property>
+    <property source="sp-cfamount" target="CP_MONTANT">
+      <source>
+        <currency>$</currency>
+        <decimalSeparator>.</decimalSeparator>
+        <groupSeparator>,</groupSeparator>
+      </source>
+    </property>
+    <property source="sp-cfphone" target="CP_TEL" />
+    <property source="sp-cfmail" target="CP_MAIL">
+    </property>
+    <property source="sp-cfnumber" target="CP_NOMBRE">
+    </property>
+    <property source="sp-cftexte" target="CP_TEST">
+    </property>
+    <property source="sp-cfdate" target="CP_DATE">
+      <source>
+        <format>dd/MM/yyyy</format>
+      </source>
+    </property>
+    <property source="sp-cfenum" target="CP_ENUM">
     </property>
   </config>
   <config name="Open311">
-    <property source="Subject" target="o311-title" />
-    <property source="Description" target="o311-description" />
-    <property source="DueDate" target="o311-expectedDateTime" />
-    <property source="MailDate" target="o311-createdOn" />
-    <property source="Chrono" target="o311-chrono" />
-    <property source="CP_O311GR_LOCALE" target="o311-locale" />
-    <property source="CP_O311GR_SERVICE_REQUEST_ID" target="o311-serviceRequestId" />
-    <property source="CP_O311GR_CITIZEN_SERVICE" target="o311-serviceCode">
+    <property source="o311-sender" target="ExternalSender">
       <map>
-        <type>id</type>
+        <type>name</type>
+        <addressBook>DEFAULT_ADDRESS_BOOK</addressBook>
       </map>
     </property>
-    <property source="CP_O311GR_SERVICE_NOTICE" target="o311-serviceNotice" />
-    <property source="CP_O311GR_REQ_ADDR" target="o311-adressString" />
-    <property source="CP_O311GR_UPDATED_ADDR" target="o311-adressStringUpdated" />
-    <property source="CP_O311GR_UPDATED_ADDR_ZIPCODE" target="o311-zipcode" />
-    <property source="CP_O311GR_DEVICE_ID" target="o311-deviceId" />
-    <property source="CP_O311GR_REQ_ACCOUNT_ID" target="o311-accountId" />
-    <property source="CP_O311GR_REQ_LAT" target="o311-latitudeReq" />
-    <property source="CP_O311GR_REQ_LONG" target="o311-longitudeReq" />
-    <property source="CP_O311GR_UPDATED_LAT" target="o311-latitudeUpdated" />
-    <property source="CP_O311GR_UPDATED_LONG" target="o311-longitudeUpdated" />
-    <property source="CP_O311GR_AGENCY_RESPONSIBLE" target="o311-agencyResponsible" />
-    <property source="CP_O311GR_DETAILED_STATUS" target="o311-detailedStatus" />
-    <property source="CP_O311GR_STATUS" target="o311-georeportStatus" />
-    <property source="CP_O311GR_STATUS_NOTE" target="o311-statusNote" />
-    <property source="CP_O311GR_LAST_UPDATE_SENT" target="o311-modifiedOn" />
+    <property source="o311-title" target="Subject" />
+    <property source="o311-description" target="Description" />
+    <property source="o311-mailType" target="MailType" />
+    <property source="o311-support" target="Support" />
+    <property source="o311-createdOn" target="MailDate">
+      <source>
+        <format>dd/MM/yyyy HH:mm:ss</format>
+      </source>
+    </property>
+    <property source="o311-serviceRequestId" target="CP_O311GR_SERVICE_REQUEST_ID" />
+    <property source="o311-serviceCode" target="CP_O311GR_CITIZEN_SERVICE">
+      <map defaultItemType="id" />
+    </property>
+    <property source="o311-serviceNotice" target="CP_O311GR_SERVICE_NOTICE" />
+    <property source="o311-adressString" target="CP_O311GR_REQ_ADDR" />
+    <property source="o311-locale" target="CP_O311GR_LOCALE" />
+    <property source="o311-fromApiKey" target="CP_O311GR_FROM_APP_KEY" />
+    <property source="o311-deviceId" target="CP_O311GR_DEVICE_ID" />
+    <property source="o311-email" target="CP_O311GR_EMAIL_REQUESTER" />
+    <property source="o311-firstName" target="CP_O311GR_FIRST_NAME_REQUESTER" />
+    <property source="o311-lastName" target="CP_O311GR_LAST_NAME_REQUESTER" />
+    <property source="o311-phone" target="CP_O311GR_PHONE_REQUESTER" />
+    <property source="o311-latitude" target="CP_O311GR_REQ_LAT" />
+    <property source="o311-longitude" target="CP_O311GR_REQ_LONG" />
+    <property source="o311-createdOn" target="CP_O311GR_REQ_DATE">
+      <source>
+        <format>dd/MM/yyyy HH:mm:ss</format>
+      </source>
+    </property>
+    <property source="o311-expectedDateTime" target="DueDate">
+      <source>
+        <format>yyyyMMdd</format>
+      </source>
+    </property>
+    <property source="o311-expectedDateTime" target="AlertDate">
+      <source>
+        <format>yyyyMMdd</format>
+      </source>
+    </property>
+    <property source="o311-modifiedOn" target="CP_O311GR_LAST_UPDATE_SENT" />
+    <property source="o311-agencyResponsible" target="CP_O311GR_AGENCY_RESPONSIBLE" />
+    <property source="o311-detailedStatus" target="CP_O311GR_DETAILED_STATUS" />
+    <property source="o311-accountId" target="CP_O311GR_REQ_ACCOUNT_ID" />
+    <property source="o311-geoReportStatus" target="CP_O311GR_STATUS" />
+    <property source="o311-geoReportStatusNote" target="CP_O311GR_STATUS_NOTE" />
   </config>
 </configuration>

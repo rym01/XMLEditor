@@ -164,6 +164,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\home.css" />
+    <Content Include="database\xmleditor_historique.sql" />
     <Content Include="favicon.ico" />
     <Content Include="fichier_xml\elise-config-externalSourceMapping.xml">
       <SubType>Designer</SubType>
